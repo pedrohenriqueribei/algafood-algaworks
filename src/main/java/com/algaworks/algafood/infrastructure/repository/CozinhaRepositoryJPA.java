@@ -23,14 +23,13 @@ public class CozinhaRepositoryJPA implements CozinhaRepository {
 	}
 
 	@Override
-	@Transactional
 	public Cozinha buscar(Long id) {
 		return manager.find(Cozinha.class, id);
 	}
 
 	@Override
 	@Transactional
-	public Cozinha adicionar(Cozinha cozinha) {
+	public Cozinha salvar(Cozinha cozinha) {
 		return manager.merge(cozinha);
 	}
 

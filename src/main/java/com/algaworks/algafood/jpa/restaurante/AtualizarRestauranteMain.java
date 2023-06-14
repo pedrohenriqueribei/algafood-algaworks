@@ -30,7 +30,7 @@ public class AtualizarRestauranteMain {
 		restaurante.setCozinha(cozinhaRepository.buscar(1L));
 		
 		
-		Restaurante rtrnt = restauranteRepository.adicionar(restaurante);
+		Restaurante rtrnt = restauranteRepository.salvar(restaurante);
 		System.out.println(rtrnt);
 	}
 

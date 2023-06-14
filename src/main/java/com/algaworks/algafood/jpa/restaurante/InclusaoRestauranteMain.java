@@ -34,8 +34,8 @@ public class InclusaoRestauranteMain {
 		rest2.setTaxaFrete(new BigDecimal(31.8));
 		rest2.setCozinha(cozinhaRepository.buscar(1L));
 		
-		restauranteRepository.adicionar(rest1);
-		restauranteRepository.adicionar(rest2);
+		restauranteRepository.salvar(rest1);
+		restauranteRepository.salvar(rest2);
 	}
 
 }

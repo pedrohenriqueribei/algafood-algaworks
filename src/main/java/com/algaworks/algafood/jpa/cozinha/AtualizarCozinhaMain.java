@@ -24,7 +24,7 @@ public class AtualizarCozinhaMain {
 		cozinha.setNome("Brasileira");
 		
 		
-		Cozinha cz = cozinhaRepository.adicionar(cozinha);
+		Cozinha cz = cozinhaRepository.salvar(cozinha);
 		System.out.println(cz);
 	}
 
