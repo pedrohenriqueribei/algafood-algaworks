@@ -22,6 +22,8 @@ public class Cozinha {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
 	
+	// mudar o nome da propriedade no JSON -> @JsonProperty("descricao")
+	// não mandar a propriedade no JSON -> @JsonIgnore
 	@Column(name = "nome_cozinha")
 	private String nome;
 	
