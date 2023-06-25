@@ -41,8 +41,11 @@ public class CozinhaController {
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
 		Cozinha cozinha = cozinhaRepository.buscar(id);
 		
-		//return ResponseEntity.status(203).body(cozinha);
-		return ResponseEntity.ok(cozinha);
+		if(cozinha != null) {
+			//return ResponseEntity.status(203).body(cozinha);
+			return ResponseEntity.ok(cozinha);
+		}
+		return ResponseEntity.notFound().build();
 	}
 
 }
