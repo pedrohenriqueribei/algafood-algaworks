@@ -24,7 +24,7 @@ public class ExluirCozinhaMain {
 		//cozinha.setNome("Brasileira");
 		
 		
-		cozinhaRepository.remover(cozinha);
+		cozinhaRepository.remover(1l);
 		
 		System.out.println("Excluido com sucesso!!");
 	}
