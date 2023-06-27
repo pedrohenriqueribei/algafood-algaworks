@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
+import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import com.algaworks.algafood.wrapper.CozinhasXmlWrapper;
 
 @RestController
@@ -27,6 +28,9 @@ public class CozinhaController {
 	
 	@Autowired
 	private CozinhaRepository cozinhaRepository;
+	
+	@Autowired
+	private CadastroCozinhaService cadastroCozinhaService;
 	
 	/*
 	 * produces define que o método pode retornar apenas resposta em formato determinado (no caso, JSON)
@@ -56,10 +60,10 @@ public class CozinhaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cozinha> salvar(@RequestBody Cozinha cozinha) {
+	public ResponseEntity<Cozinha> adicionar (@RequestBody Cozinha cozinha) {
 		System.out.println("Chegou no método salvar");
 		
-		Cozinha cozinhaSalvada = cozinhaRepository.salvar(cozinha);
+		Cozinha cozinhaSalvada = cadastroCozinhaService.salvar(cozinha);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaSalvada);
 	}
