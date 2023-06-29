@@ -80,6 +80,7 @@ public class CidadeController {
 			return ResponseEntity.notFound().build();
 		} catch (EntidadeEmUsoException e) {
 			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			
 		}
 	}
 
