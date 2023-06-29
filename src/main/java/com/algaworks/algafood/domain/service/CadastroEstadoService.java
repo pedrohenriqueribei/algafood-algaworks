@@ -30,5 +30,7 @@ public class CadastroEstadoService {
 		} catch(DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException("Estado não pode ser removido!!");
 		}
+		
 	}
+	
 }

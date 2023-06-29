@@ -30,4 +30,5 @@ public class CadastroCidadeService {
 			throw new EntidadeEmUsoException("Cidade não pode ser removida!!");
 		}
 	}
+	
 }
