@@ -66,6 +66,8 @@ public class EstadoController {
 		return ResponseEntity.badRequest().body("Unidade da Federação não encontrada!!");
 	}
 	
+	
+	
 	@DeleteMapping("{id}")
 	public ResponseEntity<Estado> deletar (@PathVariable Long id) {
 		try {
