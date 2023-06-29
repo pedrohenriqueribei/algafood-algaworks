@@ -67,14 +67,14 @@ public class EstadoController {
 	}
 	
 	@DeleteMapping("{id}")
-	public ResponseEntity<Estado> deletar (@PathVariable Long id) {
+	public ResponseEntity<?> deletar (@PathVariable Long id) {
 		try {
 			cadastroEstadoService.excluir(id);
 			return ResponseEntity.noContent().build();
 		} catch(EntidadeNaoEncontradaException e) {
 			return ResponseEntity.notFound().build();
 		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+			return ResponseEntity.status(HttpStatus.CONFLICT).body(e.getMessage());
 		}
 	}
 }
