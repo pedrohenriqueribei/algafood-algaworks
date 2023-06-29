@@ -22,9 +22,9 @@ public class CadastroEstadoService {
 	
 	public void excluir(Long id) {
 		try {
-			Estado estado = estadoRepository.buscar(id);
-			estadoRepository.remover(estado);
-		} catch (EmptyResultDataAccessException e) {
+			
+			estadoRepository.remover(id);
+		} catch (EmptyResultDataAccessException | IllegalArgumentException e) {
 			// TODO: handle exception
 			throw new EntidadeNaoEncontradaException("Não existe cadastro de Estado com código: "+ id);
 		} catch(DataIntegrityViolationException e) {

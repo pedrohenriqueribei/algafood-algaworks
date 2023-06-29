@@ -40,9 +40,9 @@ public class EstadoRepositoryJPA implements EstadoRepository {
 
 	@Override
 	@Transactional
-	public void remover(Estado estado) {
+	public void remover(Long id) {
 		// TODO Auto-generated method stub
-		estado = buscar(estado.getId());
+		Estado estado = buscar(id);
 		manager.remove(estado);
 	}
 
