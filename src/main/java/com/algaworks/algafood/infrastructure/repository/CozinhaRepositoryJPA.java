@@ -6,13 +6,13 @@ import javax.persistence.EntityManager;
 import javax.persistence.PersistenceContext;
 
 import org.springframework.dao.EmptyResultDataAccessException;
-import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
-@Component
+@Repository
 public class CozinhaRepositoryJPA implements CozinhaRepository {
 
 	@PersistenceContext
@@ -21,6 +21,14 @@ public class CozinhaRepositoryJPA implements CozinhaRepository {
 	@Override
 	public List<Cozinha> todas() {
 		return manager.createQuery("from Cozinha", Cozinha.class).getResultList();
+	}
+	
+	@Override
+	public List<Cozinha> consultarPorNome(String nome) {
+		// TODO realizar implementação da funcionalidade de buscar por nome de cozinha
+		return manager.createQuery("FROM Cozinha WHERE nome LIKE :nome", Cozinha.class)
+				.setParameter("nome", "%"+ nome +"%")
+				.getResultList();
 	}
 
 	@Override
