@@ -39,19 +39,19 @@ public class CozinhaController {
 	 */
 	@GetMapping
 	public List<Cozinha> listar (){
-		return cozinhaRepository.todas();
+		return cozinhaRepository.findAll();
 	}
 	
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
 	public CozinhasXmlWrapper listarXml() {
-		return new CozinhasXmlWrapper(cozinhaRepository.todas());
+		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
 	}
 	
 	//jeito 1 de retornar status especificado
 	//@ResponseStatus(value = HttpStatus.ACCEPTED)
 	@GetMapping( "{id}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Cozinha cozinha = cozinhaRepository.buscar(id);
+		Cozinha cozinha = cozinhaRepository.findById(id).get();
 		
 		if(cozinha != null) {
 			//return ResponseEntity.status(203).body(cozinha);
@@ -73,7 +73,7 @@ public class CozinhaController {
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
 		System.out.println("Chegou no método atualizar");
 		
-		Cozinha cozinhaAtual = cozinhaRepository.buscar(id);
+		Cozinha cozinhaAtual = cozinhaRepository.getReferenceById(id);
 		
 		if(cozinha != null) {
 			//cozinhaBuscar.setNome(cozinha.getNome());
