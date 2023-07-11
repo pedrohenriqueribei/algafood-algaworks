@@ -1,6 +1,7 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,11 +52,11 @@ public class CozinhaController {
 	//@ResponseStatus(value = HttpStatus.ACCEPTED)
 	@GetMapping( "{id}")
 	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Cozinha cozinha = cozinhaRepository.findById(id).get();
+		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
 		
-		if(cozinha != null) {
+		if(cozinha.isPresent()) {
 			//return ResponseEntity.status(203).body(cozinha);
-			return ResponseEntity.ok(cozinha);
+			return ResponseEntity.ok(cozinha.get());
 		}
 		return ResponseEntity.notFound().build();
 	}
