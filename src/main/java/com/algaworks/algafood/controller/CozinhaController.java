@@ -74,16 +74,16 @@ public class CozinhaController {
 	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
 		System.out.println("Chegou no método atualizar");
 		
-		Cozinha cozinhaAtual = cozinhaRepository.getReferenceById(id);
+		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(id);
 		
-		if(cozinha != null) {
+		if(cozinhaAtual.isPresent()) {
 			//cozinhaBuscar.setNome(cozinha.getNome());
 			//cozinhaBuscar.setId(id);
-			BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
 			
-			cozinhaAtual = cadastroCozinhaService.salvar(cozinhaAtual);
+			Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual.get());
 			
-			return ResponseEntity.ok(cozinhaAtual);
+			return ResponseEntity.ok(cozinhaSalva);
 		}
 		
 		return ResponseEntity.notFound().build();
