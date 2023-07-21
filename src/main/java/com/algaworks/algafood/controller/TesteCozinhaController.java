@@ -41,7 +41,8 @@ public class TesteCozinhaController {
 	
 	@GetMapping("restaurantes/porTaxaFrete")
 	public List<Restaurante> restaurantePorTaxaFrete(BigDecimal taxaInicial, BigDecimal taxaFinal){
-		return restauranteRepository.streamByTaxaFreteBetween(taxaInicial, taxaFinal);
+		//return restauranteRepository.streamByTaxaFreteBetween(taxaInicial, taxaFinal);
+		return restauranteRepository.taxaFreteEntre(taxaInicial, taxaFinal);
 	}
 	
 	@GetMapping("restaurantes/porNomeAndCozinhaId")
