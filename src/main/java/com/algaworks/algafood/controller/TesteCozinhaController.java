@@ -14,8 +14,6 @@ import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
-import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComFretegratisSpec;
-import com.algaworks.algafood.infrastructure.repository.spec.RestauranteComNomeSpec;
 import com.algaworks.algafood.infrastructure.repository.spec.RestauranteSpecs;
 
 @RestController
@@ -82,7 +80,7 @@ public class TesteCozinhaController {
 		//var comFreteGratis = new RestauranteComFretegratisSpec();
 		//var comNomeEquals =  new RestauranteComNomeSpec(nome);
 		
-		return restauranteRepository.findAll(RestauranteSpecs.comFreteGratis().and(RestauranteSpecs.comNomeEquals(nome)));
+		return restauranteRepository.findComFretegratis(nome);
 	}
 	
 }
