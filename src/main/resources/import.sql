@@ -20,10 +20,10 @@ insert into tb_cidade (id, nome, estado_id) values (4, 'Campinas', 2);
 insert into tb_cidade (id, nome, estado_id) values (5, 'Fortaleza', 3);
 insert into tb_cidade (id, nome, estado_id) values (6, 'Brasília', 4);
 
-insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento) values('Tavares',10.5, 2, 6, '72.910-121', 'QS 416 Conjunto 22 Lote','10', 'Samambaia Norte', 'Comercio Local');
-insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento) values('Comida Mineira',8.5,2, 2,'72.312-100','QS 402 Conjunto A lote','1', 'Samambaia Norte', 'Comercio Local');
-insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento) values('Coco Bambu',22.5, 3, 4, '81.319-019' , 'Rua Barão de Sorocaba', '1038', 'Centro', 'Comercial');
-insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento) values('Pão Recheado',5.5, 1, 5, '57.708-102','Rua Amaciante Del Brabo','10430','Zona Sul','Avenida Principal');
+insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento, data_cadastro, data_atualizacao) values('Tavares',10.5, 2, 6, '72.910-121', 'QS 416 Conjunto 22 Lote','10', 'Samambaia Norte', 'Comercio Local', utc_timestamp, utc_timestamp);
+insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento, data_cadastro, data_atualizacao) values('Comida Mineira',8.5,2, 2,'72.312-100','QS 402 Conjunto A lote','1', 'Samambaia Norte', 'Comercio Local', utc_timestamp, utc_timestamp);
+insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento, data_cadastro, data_atualizacao) values('Coco Bambu',22.5, 3, 4, '81.319-019' , 'Rua Barão de Sorocaba', '1038', 'Centro', 'Comercial', utc_timestamp, utc_timestamp);
+insert into tb_restaurantes(nome, taxa_frete, cozinha_id, endereco_cidade_id, endereco_cep, endereco_logradouro, endereco_numero, endereco_bairro, endereco_complemento, data_cadastro, data_atualizacao) values('Pão Recheado',5.5, 1, 5, '57.708-102','Rua Amaciante Del Brabo','10430','Zona Sul','Avenida Principal', utc_timestamp, utc_timestamp);
 
 
 insert into tb_permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
