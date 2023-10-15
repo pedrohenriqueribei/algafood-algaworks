@@ -15,10 +15,13 @@ import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
+
+import com.fasterxml.jackson.annotation.JsonIgnore;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -71,6 +74,8 @@ public class Restaurante {
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
 	
+	@OneToMany(mappedBy = "restaurante")
+	private List<Produto> produtos = new ArrayList<>();
 	
 	@Override
 	public String toString() {

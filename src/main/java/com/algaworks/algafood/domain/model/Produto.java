@@ -7,32 +7,41 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 @Entity
 @Data
 @Table(name = "tb_produtos")
+@EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Produto {		
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@Column(name = "produto_nome")
+	@Column(name = "produto_nome", nullable = false)
 	private String nome;
 	
-	@Column(name = "produto_descricao")
+	@Column(name = "produto_descricao", nullable = false)
 	private String descricao;
 	
-	@Column(name = "produto_preco")
+	@Column(name = "produto_preco", nullable = false)
 	private BigDecimal preco;
 	
+	@Column(nullable = false)
 	private Boolean ativo;
 	
+	@JsonIgnore
 	@ManyToOne
+	@JoinColumn(nullable = false)
 	private Restaurante restaurante;
 
 }

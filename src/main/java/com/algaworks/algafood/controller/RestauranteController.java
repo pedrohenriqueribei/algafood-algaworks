@@ -71,7 +71,7 @@ public class RestauranteController {
 			if(restauranteAtual != null) {
 
 				//copie os dados de resstaurante para restauranteAtual e ignore os campos: id e formasPagamento
-				BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro");
+				BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 				restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
 				return ResponseEntity.ok(restauranteAtual);
 
