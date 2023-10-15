@@ -1,7 +1,5 @@
 package com.algaworks.algafood.domain.model;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -15,17 +13,15 @@ import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
 import javax.persistence.Table;
 
-import org.hibernate.annotations.CreationTimestamp;
-
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table (name = "tb_usuarios")
+@Table (name = "tb_grupo")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-public class Usuario {
-
+public class Grupo {
+	
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@EqualsAndHashCode.Include
@@ -34,19 +30,9 @@ public class Usuario {
 	@Column(nullable = false)
 	private String nome;
 	
-	@Column(nullable = false)
-	private String email;
-	
-	@Column(nullable = false)
-	private String senha;
-	
-	@CreationTimestamp
-	@Column(nullable = false, columnDefinition = "datetime")
-	private LocalDateTime dataCadastro;
-	
 	@ManyToMany
-	@JoinTable(name = "tb_usuario_grupos",
-			joinColumns = @JoinColumn(name = "usuario_id"),
-			inverseJoinColumns = @JoinColumn(name = "grupo_id"))
-	private List<Grupo> grupos = new ArrayList<>();
+	@JoinTable (name = "tb_grupo_permissao",
+		joinColumns = @JoinColumn(name = "grupo_id"),
+		inverseJoinColumns = @JoinColumn(name="permissao_id"))
+	private List<Permissao> permissoes = new ArrayList<>();
 }
