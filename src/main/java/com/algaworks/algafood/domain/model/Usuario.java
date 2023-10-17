@@ -20,7 +20,7 @@ import lombok.Data;
 import lombok.EqualsAndHashCode;
 
 @Entity
-@Table (name = "tb_usuarios")
+@Table (name = "tb_usuario")
 @Data
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
 public class Usuario {

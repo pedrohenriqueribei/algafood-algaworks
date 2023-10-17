@@ -23,7 +23,7 @@ create table tb_permissao (
     primary key (id)
 ) engine=InnoDB DEFAULT CHARSET=utf8;
 
-create table tb_produtos (
+create table tb_produto (
    id bigint not null auto_increment,
     ativo bit not null,
     produto_descricao varchar(255) not null,
@@ -34,12 +34,12 @@ create table tb_produtos (
 ) engine=InnoDB DEFAULT CHARSET=utf8;
 
 
-create table tb_restaurantes (
+create table tb_restaurante (
    id bigint not null auto_increment,
     data_atualizacao datetime not null,
     data_cadastro datetime not null,
     endereco_bairro varchar(60),
-    endereco_cep varchar(9),
+    endereco_cep varchar(10),
     endereco_complemento varchar(255),
     endereco_logradouro varchar(255),
     endereco_numero varchar(20),
@@ -57,7 +57,7 @@ create table tb_restaurante_forma_pagamento (
     primary key (restaurante_id, forma_pagamento_id)
 ) engine=InnoDB DEFAULT CHARSET=utf8;
 
-create table tb_usuarios (
+create table tb_usuario (
    id bigint not null auto_increment,
     data_cadastro datetime not null,
     email varchar(255) not null,
@@ -84,10 +84,10 @@ alter table tb_grupo_permissao
    foreign key (grupo_id) 
    references tb_grupo (id);
 
-alter table tb_produtos 
+alter table tb_produto
    add constraint fk_produto_restaurante 
    foreign key (restaurante_id) 
-   references tb_restaurantes (id);
+   references tb_restaurante (id);
 
 alter table tb_restaurante_forma_pagamento 
    add constraint fk_rest_forma_pagto_forma_pagto 
@@ -97,14 +97,14 @@ alter table tb_restaurante_forma_pagamento
 alter table tb_restaurante_forma_pagamento 
    add constraint fk_rest_forma_pagto_restaurante 
    foreign key (restaurante_id) 
-   references tb_restaurantes (id);
+   references tb_restaurante (id);
 
-alter table tb_restaurantes 
+alter table tb_restaurante
    add constraint fk_restaurante_cozinha 
    foreign key (cozinha_id) 
    references tb_cozinha (id);
 
-alter table tb_restaurantes 
+alter table tb_restaurante
    add constraint fk_restaurante_cidade 
    foreign key (endereco_cidade_id) 
    references tb_cidade (id);
@@ -117,5 +117,5 @@ alter table tb_usuario_grupos
 alter table tb_usuario_grupos 
    add constraint fk_usuario_grupo_usuario 
    foreign key (usuario_id) 
-   references tb_usuarios (id);
+   references tb_usuario (id);
 

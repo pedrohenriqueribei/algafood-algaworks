@@ -35,7 +35,7 @@ import lombok.Setter;
 @Getter
 @Setter
 @EqualsAndHashCode(onlyExplicitlyIncluded = true)
-@Table(name = "tb_restaurantes")
+@Table(name = "tb_restaurante")
 public class Restaurante {
 
 	@Id
