@@ -19,7 +19,7 @@ import lombok.Getter;
 import lombok.Setter;
 
 @Entity
-@Table (name = "tb_cozinhas")
+@Table (name = "tb_cozinha")
 @Getter
 @Setter
 @EqualsAndHashCode(of = "id")
@@ -32,7 +32,7 @@ public class Cozinha {
 	
 	// mudar o nome da propriedade no JSON -> @JsonProperty("descricao")
 	// não mandar a propriedade no JSON -> @JsonIgnore
-	@Column(name = "nome_cozinha")
+	@Column(name = "nome")
 	private String nome;
 	
 	@JsonIgnore
