@@ -14,6 +14,8 @@ SELECT * FROM tb_forma_pagamento;
 SELECT * FROM tb_permissao;
 SELECT * FROM tb_restaurante_forma_pagamento;
 SELECT * FROM tb_produto;
+SELECT * FROM tb_pedido;
+SELECT * FROM tb_item_pedido;
 SELECT * FROM flyway_schema_history;
 
 delete from flyway_schema_history WHERE installed_rank = 6;
