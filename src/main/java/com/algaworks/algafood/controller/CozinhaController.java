@@ -15,6 +15,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
@@ -89,21 +90,30 @@ public class CozinhaController {
 		return ResponseEntity.notFound().build();
 	}
 	
+	/*
+	 * refatorando o método deletar para trabalhar corretamente com tratamento de erros da API - Capítulo 8
+	 */
+//	@DeleteMapping("{id}")
+//	public ResponseEntity<Cozinha> deletar (@PathVariable Long id) {
+//		System.out.println("Chegou no método deletar");
+//		
+//		try {
+//			cadastroCozinhaService.excluir(id);
+//
+//			return ResponseEntity.noContent().build();
+//			
+//		} catch (EntidadeNaoEncontradaException e) {
+//
+//			return ResponseEntity.notFound().build();
+//			
+//		} catch (EntidadeEmUsoException e) {
+//			return ResponseEntity.status(HttpStatus.CONFLICT).build();
+//		}
+//	}	
+	
 	@DeleteMapping("{id}")
-	public ResponseEntity<Cozinha> deletar (@PathVariable Long id) {
-		System.out.println("Chegou no método deletar");
-		
-		try {
-			cadastroCozinhaService.excluir(id);
-
-			return ResponseEntity.noContent().build();
-			
-		} catch (EntidadeNaoEncontradaException e) {
-
-			return ResponseEntity.notFound().build();
-			
-		} catch (EntidadeEmUsoException e) {
-			return ResponseEntity.status(HttpStatus.CONFLICT).build();
-		}
-	}	
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletar (@PathVariable Long id) {
+		cadastroCozinhaService.excluir(id);
+	}
 }
