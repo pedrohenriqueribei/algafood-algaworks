@@ -15,13 +15,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
-import org.springframework.web.server.ResponseStatusException;
-import org.springframework.web.server.ServerWebInputException;
 
-import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -112,21 +107,35 @@ public class CozinhaController {
 //			return ResponseEntity.status(HttpStatus.CONFLICT).build();
 //		}
 //	}
-	
-	@DeleteMapping("{id}")
-	@ResponseStatus(HttpStatus.NO_CONTENT)
-	public void deletar (@PathVariable Long id) {
-		try {
-			cadastroCozinhaService.excluir(id);
-		} catch (EntidadeNaoEncontradaException e) {
-			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
-			//throw new ServerWebInputException(e.getMessage());
-		}
-	}
-	
+	/*
+	 * usando ResponseStatusException
+	 */
+//	@DeleteMapping("{id}")
+//	@ResponseStatus(HttpStatus.NO_CONTENT)
+//	public void deletar (@PathVariable Long id) {
+//		try {
+//			cadastroCozinhaService.excluir(id);
+//		} catch (EntidadeNaoEncontradaException e) {
+//			throw new ResponseStatusException(HttpStatus.NOT_FOUND, e.getMessage());
+//			//throw new ServerWebInputException(e.getMessage());
+//		}
+//	}
+/*
+ * usando @ResponseStatus 	
+ */
 //	@DeleteMapping("{id}")
 //	@ResponseStatus(HttpStatus.NO_CONTENT)
 //	public void deletar (@PathVariable Long id) {
 //		cadastroCozinhaService.excluir(id);
 //	}
+	
+	
+	
+	/*
+	 * extendendo ResponseStatusException
+	 */
+	@DeleteMapping("{id}")
+	public void deletar (@PathVariable Long id) {
+		cadastroCozinhaService.excluir(id);
+	}
 }
