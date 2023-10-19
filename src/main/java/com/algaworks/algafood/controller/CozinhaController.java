@@ -1,7 +1,6 @@
 package com.algaworks.algafood.controller;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,6 +14,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -46,17 +46,11 @@ public class CozinhaController {
 		return new CozinhasXmlWrapper(cozinhaRepository.findAll());
 	}
 	
-	//jeito 1 de retornar status especificado
-	//@ResponseStatus(value = HttpStatus.ACCEPTED)
+	
+	
 	@GetMapping( "{id}")
-	public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
-		Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
-		
-		if(cozinha.isPresent()) {
-			//return ResponseEntity.status(203).body(cozinha);
-			return ResponseEntity.ok(cozinha.get());
-		}
-		return ResponseEntity.notFound().build();
+	public Cozinha buscar (@PathVariable Long id) {
+		return cadastroCozinhaService.buscarOuFalhar(id);
 	}
 	
 	@PostMapping
@@ -69,23 +63,44 @@ public class CozinhaController {
 	}
 	
 	@PutMapping("{id}")
-	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
-		System.out.println("Chegou no método atualizar");
+	public Cozinha atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
 		
-		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(id);
+		Cozinha cozinhaAtual = cadastroCozinhaService.buscarOuFalhar(id);
 		
-		if(cozinhaAtual.isPresent()) {
-			//cozinhaBuscar.setNome(cozinha.getNome());
-			//cozinhaBuscar.setId(id);
-			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
-			
-			Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual.get());
-			
-			return ResponseEntity.ok(cozinhaSalva);
-		}
+		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 		
-		return ResponseEntity.notFound().build();
+		return cadastroCozinhaService.salvar(cozinhaAtual); 
 	}
+
+	
+	@DeleteMapping("{id}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void deletar (@PathVariable Long id) {
+		cadastroCozinhaService.excluir(id);
+	}
+	
+	
+	
+	
+	
+//	@PutMapping("{id}")
+//	public ResponseEntity<Cozinha> atualizar(@PathVariable Long id, @RequestBody Cozinha cozinha) {
+//		System.out.println("Chegou no método atualizar");
+//		
+//		Optional<Cozinha> cozinhaAtual = cozinhaRepository.findById(id);
+//		
+//		if(cozinhaAtual.isPresent()) {
+//			//cozinhaBuscar.setNome(cozinha.getNome());
+//			//cozinhaBuscar.setId(id);
+//			BeanUtils.copyProperties(cozinha, cozinhaAtual.get(), "id");
+//			
+//			Cozinha cozinhaSalva = cadastroCozinhaService.salvar(cozinhaAtual.get());
+//			
+//			return ResponseEntity.ok(cozinhaSalva);
+//		}
+//		
+//		return ResponseEntity.notFound().build();
+//	}
 	
 	/*
 	 * refatorando o método deletar para trabalhar corretamente com tratamento de erros da API - Capítulo 8
@@ -134,8 +149,22 @@ public class CozinhaController {
 	/*
 	 * extendendo ResponseStatusException
 	 */
-	@DeleteMapping("{id}")
-	public void deletar (@PathVariable Long id) {
-		cadastroCozinhaService.excluir(id);
-	}
+//	@DeleteMapping("{id}")
+//	public void deletar (@PathVariable Long id) {
+//		cadastroCozinhaService.excluir(id);
+//	}
+	
+	//jeito 1 de retornar status especificado
+		//@ResponseStatus(value = HttpStatus.ACCEPTED)
+	//  JEITO ANTIGO
+//		@GetMapping( "{id}")
+//		public ResponseEntity<Cozinha> buscar(@PathVariable Long id) {
+//			Optional<Cozinha> cozinha = cozinhaRepository.findById(id);
+//			
+//			if(cozinha.isPresent()) {
+//				//return ResponseEntity.status(203).body(cozinha);
+//				return ResponseEntity.ok(cozinha.get());
+//			}
+//			return ResponseEntity.notFound().build();
+//		}
 }
