@@ -58,7 +58,11 @@ public class CidadeController {
 		
 		BeanUtils.copyProperties(cidade, cidadeAtual, "id");
 		
-		return cadastroCidadeService.salvar(cidadeAtual);
+		try {
+			return cadastroCidadeService.salvar(cidadeAtual);			
+		} catch (EntidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage());
+		}
 	}
 	
 	@DeleteMapping("{id}")
