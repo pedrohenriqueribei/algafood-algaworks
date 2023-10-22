@@ -27,7 +27,6 @@ public class CadastroEstadoService {
 			
 			estadoRepository.deleteById(id);
 		} catch (EmptyResultDataAccessException | IllegalArgumentException e) {
-			// TODO: handle exception
 			throw new EntidadeNaoEncontradaException(MSG_NÃO_EXISTE_CADASTRO_DE_ESTADO_COM_CÓDIGO+ id);
 		} catch(DataIntegrityViolationException e) {
 			throw new EntidadeEmUsoException(MSG_ESTADO_NÃO_PODE_SER_REMOVIDO);
