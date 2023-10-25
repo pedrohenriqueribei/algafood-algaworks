@@ -39,7 +39,7 @@ public class CadastroCidadeService {
 		} catch (EmptyResultDataAccessException e) {
 			throw new CidadeNaoEncontradaException(id);
 		} catch(DataIntegrityViolationException e) {
-			throw new EntidadeEmUsoException(MSG_CIDADE_NÃO_PODE_SER_REMOVIDA);
+			throw new EntidadeEmUsoException(MSG_CIDADE_NÃO_PODE_SER_REMOVIDA + " Código: -> " +id);
 		}
 	}
 	
