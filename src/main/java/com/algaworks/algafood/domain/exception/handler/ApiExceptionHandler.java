@@ -5,6 +5,7 @@ import java.time.LocalDateTime;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -102,5 +103,21 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.type(problemType.getUri())
 				.title(problemType.getTitle())
 				.details(detail);
+	}
+	
+	@Override
+	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
+			HttpHeaders headers, HttpStatus status, WebRequest request) {
+	
+
+		ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+		String detail = "O corpo da requisição esstá inválida. Verifique erro de sintaxe.";
+		
+		Problema problema = createProblemaBuilder(status, problemType, detail)				
+				.dataHora(LocalDateTime.now())
+				.build();
+		
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
+	
 	}
 }
