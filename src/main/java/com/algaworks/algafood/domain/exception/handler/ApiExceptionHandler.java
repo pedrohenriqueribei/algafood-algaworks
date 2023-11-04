@@ -104,13 +104,17 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.title(problemType.getTitle())
 				.details(detail);
 	}
-	
+
+	/*
+	 * 8.20. Customizando exception handlers de ResponseEntityExceptionHandler
+	 * Sobrescrevendo o método handleHttpMessageNotReadable
+	 */
 	@Override
 	protected ResponseEntity<Object> handleHttpMessageNotReadable(HttpMessageNotReadableException ex,
 			HttpHeaders headers, HttpStatus status, WebRequest request) {
 	
 
-		ProblemType problemType = ProblemType.MENSAGEM_INCOMPREENSIVEL;
+		ProblemType problemType = ProblemType.MENSAGEM_NAO_COMPREENSIVEL;
 		String detail = "O corpo da requisição esstá inválida. Verifique erro de sintaxe.";
 		
 		Problema problema = createProblemaBuilder(status, problemType, detail)				
@@ -120,4 +124,5 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), status, request);
 	
 	}
+	
 }
