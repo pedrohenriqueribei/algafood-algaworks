@@ -48,8 +48,11 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 		String detail = ex.getMessage();
+		ProblemType problemType = ProblemType.ERRO_NEGOCIO;
 		
-		Problema problema = createProblemaBuilder(httpStatus, null, detail).build();
+		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
+				.dataHora(LocalDateTime.now())
+				.build();
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, request);
 		
