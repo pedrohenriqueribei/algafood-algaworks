@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
+import org.springframework.beans.TypeMismatchException;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -12,6 +13,7 @@ import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
 
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
@@ -79,6 +81,34 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, request);
 		
 	}
+	/*
+	 * if(rootCause instanceof MethodArgumentTypeMismatchException) {
+			return handlerMethodArgumentTypeMismatchException((MethodArgumentTypeMismatchException)rootCause, headers, status, request);
+		}
+	 */
+	
+	@Override
+	public ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders httpHeaders, HttpStatus httpStatus, WebRequest webRequest) {
+		
+		if(ex instanceof MethodArgumentTypeMismatchException) {
+			return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, httpHeaders, httpStatus, webRequest);
+		}
+		
+		return super.handleTypeMismatch(ex, httpHeaders, httpStatus, webRequest);
+		
+	}
+	
+	private ResponseEntity<Object> handleMethodArgumentTypeMismatch(MethodArgumentTypeMismatchException ex, HttpHeaders httpHeaders, HttpStatus httpStatus, WebRequest webRequest) {
+		
+		ProblemType problemType = ProblemType.PARAMETRO_INVALIDO;
+		String detail = String.format("O parâmetro de URL '%s' recebeu o valor '%s', "
+	            + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
+	            ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
+
+	    Problema problem = createProblemaBuilder(httpStatus, problemType, detail).build();
+
+	    return handleExceptionInternal(ex, problem, httpHeaders, httpStatus, webRequest);
+	}
 	
 	@Override
 	protected ResponseEntity<Object> handleExceptionInternal(Exception ex, Object body, HttpHeaders headers,
@@ -125,7 +155,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 			return handleInvalidFormatException((InvalidFormatException)rootCause, headers, status, request);
 		} else if(rootCause instanceof PropertyBindingException) {
 			return handlePropertyBindingException((PropertyBindingException)rootCause, headers, status, request);
-		}
+		} 
 
 		ProblemType problemType = ProblemType.MENSAGEM_NAO_COMPREENSIVEL;
 		String detail = "O corpo da requisição esstá inválida. Verifique erro de sintaxe.";
@@ -173,6 +203,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	    return references.stream()
 	        .map(ref -> ref.getFieldName())
 	        .collect(Collectors.joining("."));
-	}   
+	} 
+	
+	
+//	private ResponseEntity<Object> handlerMethodArgumentTypeMismatchException (MethodArgumentTypeMismatchException ex, HttpHeaders headers,
+//			HttpStatus status, WebRequest request) {
+//		
+//		ProblemType problemType = ProblemType.PARAMETRO_INVALIDO;
+//		String detail = String.format("O parâmentro de URL '%s' recebeu um valor '%s', que é de um tipo inválido. Informe um valor compatível com o tipo %s", "A", "B","C");
+//		Problema problema = createProblemaBuilder(status, problemType, detail)
+//				.dataHora(LocalDateTime.now())
+//				.build();
+//		
+//		return handleExceptionInternal(ex, problema, headers, status, request);
+//	}
 	
 }
