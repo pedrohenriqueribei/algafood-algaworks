@@ -7,8 +7,8 @@ import javax.persistence.ManyToOne;
 
 import lombok.Data;
 
-@Embeddable
 @Data
+@Embeddable
 public class Endereco {
 
 	@Column(name = "endereco_cep")

@@ -37,6 +37,8 @@ import com.fasterxml.jackson.databind.exc.PropertyBindingException;
  */
 @ControllerAdvice
 public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
+	
+	public static final String MSG_ERRO_USUARIO_FINAL = "Ocorreu um erro interno inesperado no sistema. Tente novamene em alguns instantes. Se o problema persistir, entre em contato com o administrador";
 
 	@ExceptionHandler(EntidadeNaoEncontradaException.class)
 	public ResponseEntity<?> tratarEntidadeNaoEncontrada (EntidadeNaoEncontradaException ex, WebRequest request) {
@@ -54,7 +56,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<?> tratarNegocioException (NegocioException ex, WebRequest request) {
+	public ResponseEntity<?> tratarNegocio (NegocioException ex, WebRequest request) {
 		
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 		String detail = ex.getMessage();
@@ -69,7 +71,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(EntidadeEmUsoException.class)
-	public ResponseEntity<?> tratarEntidadeEmUsoException(EntidadeEmUsoException ex, WebRequest request){
+	public ResponseEntity<?> tratarEntidadeEmUso(EntidadeEmUsoException ex, WebRequest request){
 		
 		HttpStatus httpStatus = HttpStatus.CONFLICT;
 		ProblemType problemType = ProblemType.ENTIDADE_EM_USO;
@@ -77,14 +79,28 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
 				.dataHora(LocalDateTime.now())
+				.userMessage(detail)
 				.build();
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, request);
 		
 	}
 	
+	@ExceptionHandler(Exception.class)
+	public ResponseEntity<?> handleErroSistema(Exception ex, WebRequest webRequest) {
+		
+		HttpStatus httpStatus = HttpStatus.SERVICE_UNAVAILABLE;
+		ProblemType problemType = ProblemType.ERRO_SISTEMA;
+		String detail = MSG_ERRO_USUARIO_FINAL;
+		
+		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
+				.dataHora(LocalDateTime.now())
+				.build();
+		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, webRequest);
+	}
+	
 	@Override
-	public ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders httpHeaders, HttpStatus httpStatus, WebRequest webRequest) {
+	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders httpHeaders, HttpStatus httpStatus, WebRequest webRequest) {
 		
 		if(ex instanceof MethodArgumentTypeMismatchException) {
 			return handleMethodArgumentTypeMismatch((MethodArgumentTypeMismatchException) ex, httpHeaders, httpStatus, webRequest);
@@ -101,7 +117,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	            + "que é de um tipo inválido. Corrija e informe um valor compatível com o tipo %s.",
 	            ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
-	    Problema problem = createProblemaBuilder(httpStatus, problemType, detail).build();
+	    Problema problem = createProblemaBuilder(httpStatus, problemType, detail)
+	    		.dataHora(LocalDateTime.now())
+	    		.build();
 
 	    return handleExceptionInternal(ex, problem, httpHeaders, httpStatus, webRequest);
 	}
@@ -134,6 +152,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.status(status.value())
 				.type(problemType.getUri())
 				.title(problemType.getTitle())
+				.dataHora(LocalDateTime.now())
 				.details(detail);
 	}
 
@@ -148,9 +167,9 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		Throwable rootCause = ExceptionUtils.getRootCause(ex);
 		
 		if(rootCause instanceof InvalidFormatException) {
-			return handleInvalidFormatException((InvalidFormatException)rootCause, headers, status, request);
+			return handleInvalidFormat((InvalidFormatException)rootCause, headers, status, request);
 		} else if(rootCause instanceof PropertyBindingException) {
-			return handlePropertyBindingException((PropertyBindingException)rootCause, headers, status, request);
+			return handlePropertyBinding((PropertyBindingException)rootCause, headers, status, request);
 		} 
 
 		ProblemType problemType = ProblemType.MENSAGEM_NAO_COMPREENSIVEL;
@@ -165,7 +184,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@Override
-	protected ResponseEntity<Object> handleNoHandlerFoundException(NoHandlerFoundException ex, HttpHeaders headers,
+	protected ResponseEntity<Object> handleNoHandlerFoundException (NoHandlerFoundException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 
 		ProblemType problemType = ProblemType.RECURSO_NAO_ENCONTRADO;
@@ -180,7 +199,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		return handleExceptionInternal(ex, problema, headers, statusHttp, request);
 	}
 
-	private ResponseEntity<Object> handlePropertyBindingException(PropertyBindingException ex, HttpHeaders headers,
+	private ResponseEntity<Object> handlePropertyBinding (PropertyBindingException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 		
 		String atr = joinPath(ex.getPath());
@@ -189,11 +208,12 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = String.format("O campo '%s' não é válido!!", atr);
 		Problema problema = createProblemaBuilder(status, problemType, detail)				
 				.dataHora(LocalDateTime.now())
+				.userMessage(MSG_ERRO_USUARIO_FINAL)
 				.build();
 		return handleExceptionInternal(ex, problema, headers, status, request);
 	}
 
-	private ResponseEntity<Object> handleInvalidFormatException(InvalidFormatException ex, HttpHeaders headers,
+	private ResponseEntity<Object> handleInvalidFormat (InvalidFormatException ex, HttpHeaders headers,
 			HttpStatus status, WebRequest request) {
 		
 		ex.getPath().forEach(var -> System.out.println(var.getFieldName()));
@@ -203,8 +223,10 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.MENSAGEM_NAO_COMPREENSIVEL;
 		String detail = String.format("A propriedade '%s' recebeu um valor '%s' que é de um tipo inválido. "
 				+ "Corrija para um valor compatível com o tipo %s", path, ex.getValue(), ex.getTargetType().getSimpleName());
+		
 		Problema problema = createProblemaBuilder(status, problemType, detail)
 				.dataHora(LocalDateTime.now())
+				.userMessage(MSG_ERRO_USUARIO_FINAL)
 				.build();
 
 		
@@ -219,5 +241,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	
 	
 
+	
 	
 }

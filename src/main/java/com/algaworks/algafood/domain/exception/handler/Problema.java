@@ -22,5 +22,8 @@ public class Problema {
 	private String details;
 	private String instance;
 	
+	
+	//8.28. Estendendo o formato do problema para adicionar novas propriedades
+	private String userMessage;
 	private LocalDateTime dataHora;
 }

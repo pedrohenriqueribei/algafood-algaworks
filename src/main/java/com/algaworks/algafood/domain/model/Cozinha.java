@@ -22,7 +22,7 @@ import lombok.Setter;
 @Table (name = "tb_cozinha")
 @Getter
 @Setter
-@EqualsAndHashCode(of = "id")
+@EqualsAndHashCode(of= "id")
 @JsonRootName("cozinha") //mudar o nome do item no json
 public class Cozinha {
 
