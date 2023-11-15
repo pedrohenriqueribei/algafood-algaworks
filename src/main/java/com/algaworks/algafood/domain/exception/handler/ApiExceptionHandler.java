@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.context.request.WebRequest;
@@ -56,7 +57,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	}
 	
 	@ExceptionHandler(NegocioException.class)
-	public ResponseEntity<?> tratarNegocio (NegocioException ex, WebRequest request) {
+	public ResponseEntity<?> tratarExceptionDeNegocio (NegocioException ex, WebRequest request) {
 		
 		HttpStatus httpStatus = HttpStatus.BAD_REQUEST;
 		String detail = ex.getMessage();
@@ -86,6 +87,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 	}
 	
+	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleErroSistema(Exception ex, WebRequest webRequest) {
 		
@@ -98,6 +100,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, webRequest);
 	}
+	
+	
+	@Override
+	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
+				HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+		HttpStatus httpStatus = HttpStatus.NOT_ACCEPTABLE;
+		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+		String detail = ex.getMessage();
+		
+		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
+			.dataHora(LocalDateTime.now())
+			.userMessage("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
+			.build();
+		
+		return handleExceptionInternal(ex, problema, headers, httpStatus, webRequest);
+	}
+	
 	
 	@Override
 	protected ResponseEntity<Object> handleTypeMismatch(TypeMismatchException ex, HttpHeaders httpHeaders, HttpStatus httpStatus, WebRequest webRequest) {
