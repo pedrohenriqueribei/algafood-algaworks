@@ -22,6 +22,8 @@ import javax.validation.Valid;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
 import javax.validation.constraints.PositiveOrZero;
+import javax.validation.groups.ConvertGroup;
+import javax.validation.groups.Default;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -51,15 +53,16 @@ public class Restaurante {
 	
 	//@NotNull não pode ser nulo
 	//@NotEmpty não pode vazio e nem nulo
-	@NotBlank(groups = Groups.CadastroRestaurante.class) //não pode ser vazio, não pode ser nulo e não pode ter espaço em branco
+	@NotBlank //não pode ser vazio, não pode ser nulo e não pode ter espaço em branco
 	private String nome;
 	
 //	@DecimalMin("0")
-	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
+	@PositiveOrZero
 	private BigDecimal taxaFrete;
 	
 	@Valid
-	@NotNull(groups = Groups.CadastroRestaurante.class)
+	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
+	@NotNull
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)

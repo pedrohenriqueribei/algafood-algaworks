@@ -29,7 +29,7 @@ import lombok.Setter;
 @JsonRootName("cozinha") //mudar o nome do item no json
 public class Gastronomia {
 
-	@NotNull(groups = Groups.CadastroRestaurante.class)
+	@NotNull(groups = Groups.CozinhaId.class)
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	private Long id;
