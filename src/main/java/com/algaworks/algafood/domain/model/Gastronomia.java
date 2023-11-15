@@ -24,7 +24,7 @@ import lombok.Setter;
 @Setter
 @EqualsAndHashCode(of= "id")
 @JsonRootName("cozinha") //mudar o nome do item no json
-public class Cozinha {
+public class Gastronomia {
 
 	@Id
 	@GeneratedValue(strategy = GenerationType.IDENTITY)

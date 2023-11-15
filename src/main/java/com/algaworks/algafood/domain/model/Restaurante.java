@@ -50,7 +50,7 @@ public class Restaurante {
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)
-	private Cozinha cozinha;
+	private Gastronomia cozinha;
 	
 	@JsonIgnore
 	@Embedded
