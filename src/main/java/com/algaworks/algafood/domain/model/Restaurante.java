@@ -48,6 +48,7 @@ public class Restaurante {
 	@NotNull
 	private String nome;
 	
+	@NotNull
 	private BigDecimal taxaFrete;
 	
 //	@JsonIgnore

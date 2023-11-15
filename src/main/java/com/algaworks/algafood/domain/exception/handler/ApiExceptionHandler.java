@@ -10,6 +10,7 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -21,6 +22,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.handler.Problema.Field;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -109,8 +111,19 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
 		String detail = ex.getMessage();
 		
+		//getBindingResult da exception guarda erros de validação
+		BindingResult bindingResult = ex.getBindingResult();
+		
+		List<Field> problemaFields = bindingResult.getFieldErrors().stream()
+				.map(fieldError -> Field.builder()
+						.name(fieldError.getField())
+						.userMessage(fieldError.getDefaultMessage())
+						.build())
+				.collect(Collectors.toList());
+		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
 			.dataHora(LocalDateTime.now())
+			.fields(problemaFields)
 			.userMessage("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
 			.build();
 		
