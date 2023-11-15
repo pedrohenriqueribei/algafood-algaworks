@@ -2,6 +2,8 @@ package com.algaworks.algafood.controller;
 
 import java.util.List;
 
+import javax.validation.Valid;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -54,7 +56,7 @@ public class CozinhaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Gastronomia> adicionar (@RequestBody Gastronomia cozinha) {
+	public ResponseEntity<Gastronomia> adicionar (@RequestBody @Valid Gastronomia cozinha) {
 		System.out.println("Chegou no método salvar");
 		
 		Gastronomia cozinhaSalvada = cadastroCozinhaService.salvar(cozinha);
