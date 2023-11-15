@@ -18,7 +18,10 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -45,13 +48,17 @@ public class Restaurante {
 	@EqualsAndHashCode.Include
 	private Long id;
 	
-	@NotNull
+	//@NotNull não pode ser nulo
+	//@NotEmpty não pode vazio e nem nulo
+	@NotBlank //não pode ser vazio, não pode ser nulo e não pode ter espaço em branco
 	private String nome;
 	
-	@NotNull
+//	@DecimalMin("0")
+	@PositiveOrZero
 	private BigDecimal taxaFrete;
 	
-//	@JsonIgnore
+	@Valid
+	@NotNull
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)
