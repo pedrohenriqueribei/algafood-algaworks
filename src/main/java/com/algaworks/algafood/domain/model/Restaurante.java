@@ -26,6 +26,7 @@ import javax.validation.constraints.PositiveOrZero;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.valid.groups.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
@@ -50,15 +51,15 @@ public class Restaurante {
 	
 	//@NotNull não pode ser nulo
 	//@NotEmpty não pode vazio e nem nulo
-	@NotBlank //não pode ser vazio, não pode ser nulo e não pode ter espaço em branco
+	@NotBlank(groups = Groups.CadastroRestaurante.class) //não pode ser vazio, não pode ser nulo e não pode ter espaço em branco
 	private String nome;
 	
 //	@DecimalMin("0")
-	@PositiveOrZero
+	@PositiveOrZero(groups = Groups.CadastroRestaurante.class)
 	private BigDecimal taxaFrete;
 	
 	@Valid
-	@NotNull
+	@NotNull(groups = Groups.CadastroRestaurante.class)
 	@JsonIgnoreProperties("hibernateLazyInitializer")
 	@ManyToOne(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)
