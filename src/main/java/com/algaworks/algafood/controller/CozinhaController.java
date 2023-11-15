@@ -65,7 +65,7 @@ public class CozinhaController {
 	}
 	
 	@PutMapping("{id}")
-	public Gastronomia atualizar(@PathVariable Long id, @RequestBody Gastronomia cozinha) {
+	public Gastronomia atualizar(@PathVariable Long id, @RequestBody @Valid Gastronomia cozinha) {
 		
 		Gastronomia cozinhaAtual = cadastroCozinhaService.buscarOuFalhar(id);
 		
