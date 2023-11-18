@@ -28,6 +28,7 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.algaworks.algafood.valid.groups.Groups;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
@@ -57,7 +58,8 @@ public class Restaurante {
 	private String nome;
 	
 //	@DecimalMin("0")
-	@PositiveOrZero
+//	@PositiveOrZero
+	@TaxaFrete
 	@NotNull
 	@Column(name = "taxa_frete", nullable = false)
 	private BigDecimal taxaFrete;
