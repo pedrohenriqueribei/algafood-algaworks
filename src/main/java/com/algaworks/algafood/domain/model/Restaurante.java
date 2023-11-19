@@ -27,6 +27,7 @@ import javax.validation.groups.Default;
 import org.hibernate.annotations.CreationTimestamp;
 import org.hibernate.annotations.UpdateTimestamp;
 
+import com.algaworks.algafood.core.validation.FreteGratis;
 import com.algaworks.algafood.core.validation.Multiplo;
 import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.algaworks.algafood.valid.groups.Groups;
@@ -39,7 +40,7 @@ import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
-
+@FreteGratis(valorField = "taxaFrete", descricaoField = "nome", descricaoObrigatoria="Frete Grátis")
 @Entity
 @Getter
 @Setter

@@ -14,6 +14,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.FieldError;
 import org.springframework.web.bind.MethodArgumentNotValidException;
 import org.springframework.web.bind.annotation.ControllerAdvice;
 import org.springframework.web.bind.annotation.ExceptionHandler;
@@ -25,7 +26,6 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.exception.handler.Problema.Field;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -113,6 +113,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	@Override
 	protected ResponseEntity<Object> handleMethodArgumentNotValid(MethodArgumentNotValidException ex,
 				HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+		
 		HttpStatus httpStatus = HttpStatus.NOT_ACCEPTABLE;
 		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
 		String detail = ex.getMessage();
@@ -120,12 +121,18 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		//getBindingResult da exception guarda erros de validação
 		BindingResult bindingResult = ex.getBindingResult();
 		
-		List<Field> problemaFields = bindingResult.getFieldErrors().stream()
-				.map(fieldError -> {
-					String message = messageSource.getMessage(fieldError, LocaleContextHolder.getLocale());
+		List<Problema.Object> problemaObjects = bindingResult.getAllErrors().stream()
+				.map(objectError -> {
+					String message = messageSource.getMessage(objectError, LocaleContextHolder.getLocale());
 					
-					return Field.builder()
-						.name(fieldError.getField())
+					String name = objectError.getObjectName();
+					
+					if(objectError instanceof FieldError) {
+						name = ((FieldError) objectError).getField();
+					}
+					
+					return Problema.Object.builder()
+						.name(name)
 						.userMessage(message)
 						.build();
 				})
@@ -133,7 +140,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
 			.dataHora(LocalDateTime.now())
-			.fields(problemaFields)
+			.listaErros(problemaObjects)
 			.userMessage("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
 			.build();
 		

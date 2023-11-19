@@ -29,11 +29,11 @@ public class Problema {
 	private LocalDateTime dataHora;
 	
 	//9.4. Estendendo o Problem Details para adicionar as propriedades com constraints violadas
-	private List<Field> fields;
+	private List<Object> listaErros;
 	
 	@Getter
 	@Builder
-	public static class Field {
+	public static class Object {
 		private String name;
 		private String userMessage;
 	}
