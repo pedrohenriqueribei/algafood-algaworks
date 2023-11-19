@@ -26,6 +26,7 @@ import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExcep
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.ValidacaoException;
 import com.fasterxml.jackson.databind.JsonMappingException.Reference;
 import com.fasterxml.jackson.databind.exc.InvalidFormatException;
 import com.fasterxml.jackson.databind.exc.PropertyBindingException;
@@ -95,7 +96,6 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 	}
 	
-	
 	@ExceptionHandler(Exception.class)
 	public ResponseEntity<?> handleErroSistema(Exception ex, WebRequest webRequest) {
 		
@@ -115,11 +115,23 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
 		
 		HttpStatus httpStatus = HttpStatus.NOT_ACCEPTABLE;
-		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
-		String detail = ex.getMessage();
 		
-		//getBindingResult da exception guarda erros de validação
-		BindingResult bindingResult = ex.getBindingResult();
+		
+		return handleValidationInternal(ex, ex.getBindingResult(), headers, httpStatus, webRequest);
+	}
+	
+	@ExceptionHandler(ValidacaoException.class)
+	public ResponseEntity<Object> handleValidacaoProgramatica(ValidacaoException ex, WebRequest webRequest){
+		
+		HttpStatus httpStatus = HttpStatus.FORBIDDEN;
+		
+		return handleValidationInternal(ex, ex.getBindingResult(), new HttpHeaders(), httpStatus, webRequest);
+	}
+	
+	private ResponseEntity<Object> handleValidationInternal (Exception ex, BindingResult bindingResult, HttpHeaders headers, HttpStatus status, WebRequest webRequest) {
+		
+		ProblemType problemType = ProblemType.DADOS_INVALIDOS;
+		String detail = "Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.";
 		
 		List<Problema.Object> problemaObjects = bindingResult.getAllErrors().stream()
 				.map(objectError -> {
@@ -138,13 +150,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				})
 				.collect(Collectors.toList());
 		
-		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
+		Problema problema = createProblemaBuilder(status, problemType, detail)
 			.dataHora(LocalDateTime.now())
 			.listaErros(problemaObjects)
 			.userMessage("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
 			.build();
 		
-		return handleExceptionInternal(ex, problema, headers, httpStatus, webRequest);
+		return handleExceptionInternal(ex, problema, headers, status, webRequest);
 	}
 	
 	
