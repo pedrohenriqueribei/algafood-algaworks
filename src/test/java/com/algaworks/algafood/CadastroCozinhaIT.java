@@ -18,7 +18,7 @@ import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @SuppressWarnings("unused")
 @SpringBootTest
-class CadastroCozinhaIntegrationTests {
+class CadastroCozinhaIT {
 	
 	@Autowired
 	private CadastroCozinhaService cozinhaService;

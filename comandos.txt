@@ -1,0 +1,8 @@
+COMANDOS POR LINHA DE COMANDO
+
+1. PARA RODAR OS TESTES
+mvnw teste
+
+2. PARA FAZER O BUILD DO PROJETO
+mvnw clean package
+
