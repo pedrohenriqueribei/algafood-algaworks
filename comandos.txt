@@ -6,3 +6,5 @@ mvnw teste
 2. PARA FAZER O BUILD DO PROJETO
 mvnw clean package
 
+3. PARA RODAR OS TESTES DE INTEGRAÇÃO
+mvnw verify
