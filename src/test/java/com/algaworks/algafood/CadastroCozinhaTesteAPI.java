@@ -16,6 +16,10 @@ public class CadastroCozinhaTesteAPI {
 	
 	@Test
 	public void deveRetornarStatus200() {
+		
+		//habilita log quando teste falha
+		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
+		
 		RestAssured
 			.given()
 				.basePath("/cozinhas")
