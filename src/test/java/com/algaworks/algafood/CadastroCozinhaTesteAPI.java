@@ -1,6 +1,7 @@
 package com.algaworks.algafood;
 
 import org.hamcrest.Matchers;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.server.LocalServerPort;
@@ -15,16 +16,20 @@ public class CadastroCozinhaTesteAPI {
 	@LocalServerPort
 	private int port;
 	
-	@Test
-	public void deveRetornarStatus200() {
-		
+	@BeforeEach
+	public void setUp() {
 		//habilita log quando teste falha
 		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 		
+		RestAssured.port = port;
+		RestAssured.basePath = "/cozinhas";
+	}
+	
+	@Test
+	public void deveRetornarStatus200() {
+		
 		RestAssured
 			.given()
-				.basePath("/cozinhas")
-				.port(port)
 				.accept(ContentType.JSON)
 			.when()
 				.get()
@@ -35,13 +40,9 @@ public class CadastroCozinhaTesteAPI {
 	//fazer corpo da resposta
 	@Test
 	public void deveConter4Cozinhas() {
-		//habilita log quando teste falha
-		RestAssured.enableLoggingOfRequestAndResponseIfValidationFails();
 				
 		RestAssured
 			.given()
-				.basePath("/cozinhas")
-				.port(port)
 				.accept(ContentType.JSON)
 			.when()
 				.get()
