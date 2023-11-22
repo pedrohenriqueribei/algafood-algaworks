@@ -49,7 +49,7 @@ public class CadastroCozinhaTesteAPI {
 		RestAssured.port = port;
 		RestAssured.basePath = "/cozinhas";
 		
-		jsonCorretoCozinhaChilena = ResourceUtils.getContentFromResource("/json/cozinha-chilena.json");
+		jsonCorretoCozinhaChilena = ResourceUtils.getContentFromResource("/json/correto/cozinha-chilena.json");
 
 		databaseCleaner.clearTables();
 		
