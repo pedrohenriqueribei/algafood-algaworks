@@ -1,0 +1,7 @@
+{
+	"nome": "Goiana Top",
+	"taxaFrete": 10,
+	"cozinha": {
+		"id": 300
+	}
+}
