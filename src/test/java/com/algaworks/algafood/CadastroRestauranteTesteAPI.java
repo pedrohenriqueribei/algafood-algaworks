@@ -4,6 +4,8 @@ import static org.hamcrest.CoreMatchers.equalTo;
 
 import java.math.BigDecimal;
 
+import javax.annotation.Resource;
+
 import org.hamcrest.Matchers;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -24,6 +26,7 @@ import com.algaworks.algafood.util.ResourceUtils;
 import io.restassured.RestAssured;
 import io.restassured.http.ContentType;
 
+@SuppressWarnings("unused")
 @SpringBootTest(webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT)
 @TestPropertySource("/application-test.properties")
 public class CadastroRestauranteTesteAPI {
@@ -53,6 +56,8 @@ public class CadastroRestauranteTesteAPI {
 	private String jsonRestauranteSemTaxaFrete;
 	private String jsonRestauranteSemCozinha;
 	private String jsonRestauranteComCozinhaInexistente;
+	private String jsonRestauranteComTaxaFreteNegativo;
+	private String jsonRestauranteSemNome;
 	
 	@BeforeEach
 	public void setUp() {
@@ -66,6 +71,8 @@ public class CadastroRestauranteTesteAPI {
 		jsonRestauranteSemTaxaFrete = ResourceUtils.getContentFromResource("/json/incorreto/jsonRestauranteSemTaxaFrete.json");
 		jsonRestauranteSemCozinha   = ResourceUtils.getContentFromResource("/json/incorreto/jsonRestauranteSemCozinha.json");
 		jsonRestauranteComCozinhaInexistente = ResourceUtils.getContentFromResource("/json/incorreto/jsonRestauranteComCozinhaInexistente.json");
+		jsonRestauranteComTaxaFreteNegativo = ResourceUtils.getContentFromResource("/json/incorreto/jsonRestauranteComTaxaFreteNegativo.json");
+		jsonRestauranteSemNome = ResourceUtils.getContentFromResource("/json/incorreto/jsonRestauranteSemNome.json");
 		
 		databaseCleaner.clearTables();
 		
@@ -125,7 +132,7 @@ public class CadastroRestauranteTesteAPI {
 				.get()
 			.then()
 				.statusCode(HttpStatus.OK.value());
-//				.body("", Matchers.hasSize(quantidadeRest))
+//				.body("", Matchers.hasSize(quantidadeRest));
 //				.body("nome", Matchers.hasItem("Burguer 10"));
 		
 	}
@@ -184,6 +191,31 @@ public class CadastroRestauranteTesteAPI {
 				.statusCode(HttpStatus.BAD_REQUEST.value());
 	}
 	
+	@Test
+	public void deveRetornar406_QuandoTaxaFreteNegativo() {
+		RestAssured
+			.given()
+				.body(jsonRestauranteComTaxaFreteNegativo)
+				.accept(ContentType.JSON)
+				.contentType(ContentType.JSON)
+			.when()
+				.post()
+			.then()
+				.statusCode(HttpStatus.NOT_ACCEPTABLE.value());
+	}
+	
+	@Test
+	public void deveRetornar406_QuandoRestauranteSemNome() {
+		RestAssured
+			.given()
+				.body(jsonRestauranteSemNome)
+				.accept(ContentType.JSON)
+				.contentType(ContentType.JSON)
+			.when()
+				.post()
+			.then()
+				.statusCode(HttpStatus.NOT_ACCEPTABLE.value());
+	}
 	
 	private void prepararDados() {
 
