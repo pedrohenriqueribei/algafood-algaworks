@@ -30,8 +30,6 @@ import org.hibernate.annotations.UpdateTimestamp;
 import com.algaworks.algafood.core.validation.FreteGratis;
 import com.algaworks.algafood.core.validation.TaxaFrete;
 import com.algaworks.algafood.valid.groups.Groups;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 
 //import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -67,12 +65,10 @@ public class Restaurante {
 	@Valid
 	@ConvertGroup(from = Default.class, to = Groups.CozinhaId.class)
 	@NotNull
-	@JsonIgnoreProperties(value =  "nome", allowGetters = true)
 	@ManyToOne//(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)
 	private Gastronomia cozinha;
 	
-	@JsonIgnore
 	@Embedded
 	private Endereco endereco;
 	
@@ -80,7 +76,6 @@ public class Restaurante {
 	 * a anotação @CreationTimestamp informa que a propriedade anotada deve ser atribuida com data e hora local do momento em que o objeto for criado
 	 * é do hibernate
 	 */
-	@JsonIgnore
 	@CreationTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataCadastro;
@@ -88,7 +83,6 @@ public class Restaurante {
 	/*
 	 * a anotação @UpdateTimestamp informa que a data e hora atual deve ser atribuida a propriedade anotada sempre que a entidade for atualizada
 	 */
-	@JsonIgnore
 	@UpdateTimestamp
 	@Column(nullable = false, columnDefinition = "datetime")
 	private LocalDateTime dataAtualizacao;
@@ -100,7 +94,6 @@ public class Restaurante {
 		inverseJoinColumns = @JoinColumn(name ="forma_pagamento_id"))
 	private List<FormaPagamento> formasPagamento = new ArrayList<>();
 	
-	@JsonIgnore
 	@OneToMany(mappedBy = "restaurante")
 	private List<Produto> produtos = new ArrayList<>();
 	
