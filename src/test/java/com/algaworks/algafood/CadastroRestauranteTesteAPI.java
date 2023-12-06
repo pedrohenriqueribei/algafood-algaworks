@@ -132,7 +132,7 @@ public class CadastroRestauranteTesteAPI {
 				.get()
 			.then()
 				.statusCode(HttpStatus.OK.value());
-//				.body("", Matchers.hasSize(quantidadeRest));
+//				.body("", Matchers.hasSize(quantidadeRest))
 //				.body("nome", Matchers.hasItem("Burguer 10"));
 		
 	}
@@ -215,6 +215,20 @@ public class CadastroRestauranteTesteAPI {
 				.post()
 			.then()
 				.statusCode(HttpStatus.NOT_ACCEPTABLE.value());
+	}
+	
+	@Test
+	public void deveRetornar400_QuandoJsonRestauranteVazio() {
+		RestAssured
+			.given()
+				.body("")
+				.accept(ContentType.JSON)
+				.contentType(ContentType.JSON)
+			.when()
+				.post()
+			.then()
+				.statusCode(HttpStatus.BAD_REQUEST.value());
+				
 	}
 	
 	private void prepararDados() {
