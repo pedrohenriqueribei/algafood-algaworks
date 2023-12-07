@@ -1,6 +1,6 @@
 package com.algaworks.algafood.domain.exception.handler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -58,7 +58,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = ex.getMessage();
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)				
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.build();
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, request);
@@ -73,7 +73,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.ERRO_NEGOCIO;
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.build();
 		
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, request);
@@ -88,7 +88,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = ex.getMessage();
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.userMessage(detail)
 				.build();
 		
@@ -104,7 +104,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = MSG_ERRO_USUARIO_FINAL;
 		
 		Problema problema = createProblemaBuilder(httpStatus, problemType, detail)
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.build();
 		return handleExceptionInternal(ex, problema, new HttpHeaders(), httpStatus, webRequest);
 	}
@@ -151,7 +151,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.collect(Collectors.toList());
 		
 		Problema problema = createProblemaBuilder(status, problemType, detail)
-			.dataHora(LocalDateTime.now())
+			.dataHora(OffsetDateTime.now())
 			.listaErros(problemaObjects)
 			.userMessage("Um ou mais campos estão inválidos. Faça o preenchimento correto e tente novamente.")
 			.build();
@@ -179,7 +179,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 	            ex.getName(), ex.getValue(), ex.getRequiredType().getSimpleName());
 
 	    Problema problem = createProblemaBuilder(httpStatus, problemType, detail)
-	    		.dataHora(LocalDateTime.now())
+	    		.dataHora(OffsetDateTime.now())
 	    		.build();
 
 	    return handleExceptionInternal(ex, problem, httpHeaders, httpStatus, webRequest);
@@ -191,13 +191,13 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		
 		if(body == null) {
 			body = Problema.builder()
-					.dataHora(LocalDateTime.now())
+					.dataHora(OffsetDateTime.now())
 					.title(status.getReasonPhrase())
 					.status(status.value())
 					.build();			
 		}else if (body instanceof String) {
 			body = Problema.builder()
-					.dataHora(LocalDateTime.now())
+					.dataHora(OffsetDateTime.now())
 					.title((String)body)
 					.status(status.value())
 					.build();			
@@ -213,7 +213,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				.status(status.value())
 				.type(problemType.getUri())
 				.title(problemType.getTitle())
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.details(detail);
 	}
 
@@ -237,7 +237,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		String detail = "O corpo da requisição esstá inválida. Verifique erro de sintaxe.";
 		
 		Problema problema = createProblemaBuilder(status, problemType, detail)				
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.build();
 		
 		return handleExceptionInternal(ex, problema, headers, status, request);
@@ -253,7 +253,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		HttpStatus statusHttp = HttpStatus.EXPECTATION_FAILED;
 		
 		Problema problema = createProblemaBuilder(statusHttp, problemType, detail)
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.build();
 		
 		
@@ -268,7 +268,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 		ProblemType problemType = ProblemType.MENSAGEM_NAO_COMPREENSIVEL;
 		String detail = String.format("O campo '%s' não é válido!!", atr);
 		Problema problema = createProblemaBuilder(status, problemType, detail)				
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.userMessage(MSG_ERRO_USUARIO_FINAL)
 				.build();
 		return handleExceptionInternal(ex, problema, headers, status, request);
@@ -286,7 +286,7 @@ public class ApiExceptionHandler extends ResponseEntityExceptionHandler {
 				+ "Corrija para um valor compatível com o tipo %s", path, ex.getValue(), ex.getTargetType().getSimpleName());
 		
 		Problema problema = createProblemaBuilder(status, problemType, detail)
-				.dataHora(LocalDateTime.now())
+				.dataHora(OffsetDateTime.now())
 				.userMessage(MSG_ERRO_USUARIO_FINAL)
 				.build();
 

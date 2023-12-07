@@ -1,6 +1,6 @@
 package com.algaworks.algafood.domain.exception.handler;
 
-import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.List;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
@@ -26,7 +26,7 @@ public class Problema {
 	
 	//8.28. Estendendo o formato do problema para adicionar novas propriedades
 	private String userMessage;
-	private LocalDateTime dataHora;
+	private OffsetDateTime dataHora;
 	
 	//9.4. Estendendo o Problem Details para adicionar as propriedades com constraints violadas
 	private List<Object> listaErros;
