@@ -27,11 +27,14 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.api.model.DTO.CozinhaDTO;
-import com.algaworks.algafood.api.model.DTO.RestauranteDTO;
+import com.algaworks.algafood.api.model.DTO.input.CozinhaDTOinputRef;
+import com.algaworks.algafood.api.model.DTO.input.RestauranteDTOinput;
+import com.algaworks.algafood.api.model.DTO.output.CozinhaDTO;
+import com.algaworks.algafood.api.model.DTO.output.RestauranteDTO;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
+import com.algaworks.algafood.domain.model.Gastronomia;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
@@ -73,9 +76,10 @@ public class RestauranteController {
 	public RestauranteDTO adicionar (
 			@RequestBody 
 			@Valid
-			Restaurante restaurante) {
+			RestauranteDTOinput restauranteInput) {
 		
 		try {
+			Restaurante restaurante = toDomainObject(restauranteInput);
 			return toDTO(cadastroRestauranteService.salvar(restaurante));			
 		} catch (CozinhaNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage());
@@ -86,9 +90,11 @@ public class RestauranteController {
 	public RestauranteDTO atualizar (@PathVariable Long id, 
 			@RequestBody 
 			@Valid 
-			Restaurante restaurante){
+			RestauranteDTOinput restauranteInput){
 		
 		try {
+			Restaurante restaurante = toDomainObject(restauranteInput);
+			
 			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(id);
 			
 			//copie os dados de restaurante para restauranteAtual e ignore os campos: id e formasPagamento
@@ -110,7 +116,7 @@ public class RestauranteController {
 		//9.19. Executando processo de validação programaticamente
 		validate(restauranteAtual, "restaurante");
 		
-		return atualizar(id, restauranteAtual);
+		return atualizar(id, toDTOinput(restauranteAtual));
 	}
 
 	private void validate(Restaurante restaurante, String objectName) {
@@ -171,6 +177,30 @@ public class RestauranteController {
 		return restaurantes.stream()
 				.map(restaurante -> toDTO(restaurante))
 				.collect(Collectors.toList());
+	}
+	
+	private Restaurante toDomainObject(RestauranteDTOinput restauranteDTOinput) {
+		
+		Restaurante restaurante = new Restaurante();
+		restaurante.setNome(restauranteDTOinput.getNome());
+		restaurante.setTaxaFrete(restauranteDTOinput.getTaxaFrete());
+		
+		Gastronomia cozinha = new Gastronomia();
+		cozinha.setId(restauranteDTOinput.getCozinha().getId());
+		
+		restaurante.setCozinha(cozinha);
+		
+		return restaurante;
+	}
+	
+	private RestauranteDTOinput toDTOinput(Restaurante restaurante) {
+		RestauranteDTOinput restauranteDTOinput = new RestauranteDTOinput();
+		restauranteDTOinput.setNome(restaurante.getNome());
+		restauranteDTOinput.setTaxaFrete(restaurante.getTaxaFrete());
+		CozinhaDTOinputRef cozinha = new CozinhaDTOinputRef();
+		cozinha.setId(restaurante.getCozinha().getId());
+		restauranteDTOinput.setCozinha(cozinha);
+		return restauranteDTOinput;
 	}
 	
 	/*

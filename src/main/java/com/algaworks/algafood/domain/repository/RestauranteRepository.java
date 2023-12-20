@@ -18,7 +18,7 @@ public interface RestauranteRepository extends JpaRepository<Restaurante, Long>,
 												RestauranteRepositoryQueries ,
 												JpaSpecificationExecutor<Restaurante>
 												{
-	@Query("SELECT DISTINCT r FROM Restaurante r JOIN FETCH r.cozinha JOIN FETCH r.formasPagamento ")
+	//@Query("SELECT DISTINCT r FROM Restaurante r JOIN FETCH r.cozinha JOIN FETCH r.formasPagamento ")
 	List<Restaurante> findAll();
 /*
 	List<Restaurante> listar();
