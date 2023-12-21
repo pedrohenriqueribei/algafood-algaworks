@@ -28,13 +28,11 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.RestauranteDTOAssembler;
 import com.algaworks.algafood.api.disassembler.RestauranteInputDisassembler;
-import com.algaworks.algafood.api.model.DTO.input.CozinhaDTOinputRef;
 import com.algaworks.algafood.api.model.DTO.input.RestauranteDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.RestauranteDTO;
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.ValidacaoException;
-import com.algaworks.algafood.domain.model.Gastronomia;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
 import com.algaworks.algafood.domain.service.CadastroRestauranteService;
