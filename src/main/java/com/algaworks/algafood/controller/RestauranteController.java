@@ -8,7 +8,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.validation.Valid;
 
 import org.apache.commons.lang3.exception.ExceptionUtils;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -97,12 +96,15 @@ public class RestauranteController {
 			RestauranteDTOinput restauranteInput){
 		
 		try {
-			Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
+			//não precisa mais criar um restaurante a partir do restaurantedtoinput
+			//Restaurante restaurante = restauranteInputDisassembler.toDomainObject(restauranteInput);
 			
 			Restaurante restauranteAtual = cadastroRestauranteService.buscarOuFalhar(id);
+			restauranteInputDisassembler.copyToDomainObject(restauranteInput, restauranteAtual);
 			
+			//o dto restauranteDTOinput só tem os atributos corretos, então não tem atrubuto null para ignorar
 			//copie os dados de restaurante para restauranteAtual e ignore os campos: id e formasPagamento
-			BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
+			//BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
 			
 			return restauranteDTOAssembler.toDTO(cadastroRestauranteService.salvar(restauranteAtual));
 		} catch (CozinhaNaoEncontradaException e) {
