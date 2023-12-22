@@ -24,6 +24,7 @@ public class RestauranteInputDisassembler {
 	}
 	
 	public void copyToDomainObject (RestauranteDTOinput restauranteDTOinput, Restaurante restaurante) {
+		//para evitar HibernateException
 		restaurante.setCozinha(new Gastronomia());
 		modelMapper.map(restauranteDTOinput, restaurante);
 	}
