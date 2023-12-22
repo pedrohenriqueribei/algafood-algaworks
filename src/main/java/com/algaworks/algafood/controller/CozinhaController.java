@@ -19,7 +19,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 import com.algaworks.algafood.wrapper.CozinhasXmlWrapper;
@@ -39,7 +39,7 @@ public class CozinhaController {
 	 *	@GetMapping (produces = MediaType.APPLICATION_JSON_VALUE)
 	 */
 	@GetMapping
-	public List<Gastronomia> listar (){
+	public List<Cozinha> listar (){
 		return cozinhaRepository.findAll();
 	}
 	
@@ -51,23 +51,23 @@ public class CozinhaController {
 	
 	
 	@GetMapping( "{id}")
-	public Gastronomia buscar (@PathVariable Long id) {
+	public Cozinha buscar (@PathVariable Long id) {
 		return cadastroCozinhaService.buscarOuFalhar(id);
 	}
 	
 	@PostMapping
-	public ResponseEntity<Gastronomia> adicionar (@RequestBody @Valid Gastronomia cozinha) {
+	public ResponseEntity<Cozinha> adicionar (@RequestBody @Valid Cozinha cozinha) {
 		System.out.println("Chegou no método salvar");
 		
-		Gastronomia cozinhaSalvada = cadastroCozinhaService.salvar(cozinha);
+		Cozinha cozinhaSalvada = cadastroCozinhaService.salvar(cozinha);
 		
 		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaSalvada);
 	}
 	
 	@PutMapping("{id}")
-	public Gastronomia atualizar(@PathVariable Long id, @RequestBody @Valid Gastronomia cozinha) {
+	public Cozinha atualizar(@PathVariable Long id, @RequestBody @Valid Cozinha cozinha) {
 		
-		Gastronomia cozinhaAtual = cadastroCozinhaService.buscarOuFalhar(id);
+		Cozinha cozinhaAtual = cadastroCozinhaService.buscarOuFalhar(id);
 		
 		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
 		

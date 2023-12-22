@@ -2,7 +2,7 @@ package com.algaworks.algafood.wrapper;
 
 import java.util.List;
 
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlElementWrapper;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlProperty;
 import com.fasterxml.jackson.dataformat.xml.annotation.JacksonXmlRootElement;
@@ -17,5 +17,5 @@ public class CozinhasXmlWrapper {
 	@JacksonXmlProperty(localName = "cozinha")
 	@JacksonXmlElementWrapper(useWrapping = false)
 	@NonNull
-	private List<Gastronomia> cozinhas;
+	private List<Cozinha> cozinhas;
 }

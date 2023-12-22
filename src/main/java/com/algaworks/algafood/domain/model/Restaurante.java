@@ -67,7 +67,7 @@ public class Restaurante {
 	@NotNull
 	@ManyToOne//(fetch = FetchType.LAZY) //muitos restaurantes possui uma cozinha / uma cozinha possui muitos restaurantes
 	@JoinColumn(name = "cozinha_id", nullable = false)
-	private Gastronomia cozinha;
+	private Cozinha cozinha;
 	
 	@Embedded
 	private Endereco endereco;

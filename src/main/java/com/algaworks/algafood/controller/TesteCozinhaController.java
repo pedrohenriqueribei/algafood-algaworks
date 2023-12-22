@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -26,12 +26,12 @@ public class TesteCozinhaController {
 	private RestauranteRepository restauranteRepository;
 	
 	@GetMapping("cozinhas/porNome")
-	public List<Gastronomia> cozinhasPorNome(@RequestParam("nome") String nome) {
+	public List<Cozinha> cozinhasPorNome(@RequestParam("nome") String nome) {
 		return cozinhaRepository.findByNomeContaining(nome); 
 	}
 	
 	@GetMapping("cozinhas/porNomeUnica")
-	public List<Gastronomia> cozinhasPorNomeUnica(@RequestParam("nome") String nome) {
+	public List<Cozinha> cozinhasPorNomeUnica(@RequestParam("nome") String nome) {
 		return cozinhaRepository.findByNome(nome); 
 	}
 	

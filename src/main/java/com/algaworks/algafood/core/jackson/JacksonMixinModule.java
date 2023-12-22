@@ -7,7 +7,7 @@ import com.algaworks.algafood.api.model.mixin.CozinhaMixin;
 import com.algaworks.algafood.api.model.mixin.ProdutoMixin;
 import com.algaworks.algafood.api.model.mixin.RestauranteMixin;
 import com.algaworks.algafood.domain.model.Cidade;
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Produto;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.fasterxml.jackson.databind.module.SimpleModule;
@@ -20,7 +20,7 @@ public class JacksonMixinModule extends SimpleModule {
 	public JacksonMixinModule() {
 		setMixInAnnotation(Restaurante.class, RestauranteMixin.class);
 		setMixInAnnotation(Cidade.class, CidadeMixin.class);
-		setMixInAnnotation(Gastronomia.class, CozinhaMixin.class);
+		setMixInAnnotation(Cozinha.class, CozinhaMixin.class);
 		setMixInAnnotation(Produto.class, ProdutoMixin.class);
 	}
 }

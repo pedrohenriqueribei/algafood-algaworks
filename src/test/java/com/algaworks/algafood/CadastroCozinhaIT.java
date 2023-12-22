@@ -13,7 +13,7 @@ import org.springframework.dao.EmptyResultDataAccessException;
 
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
 
 @SuppressWarnings("unused")
@@ -26,7 +26,7 @@ class CadastroCozinhaIT {
 	@Test
 	public void testarCadastroCozinhaComSucesso() {
 		//cenário
-		Gastronomia cozinha = new Gastronomia();	
+		Cozinha cozinha = new Cozinha();	
 		cozinha.setNome("Chilena");
 		
 		//ação
@@ -40,7 +40,7 @@ class CadastroCozinhaIT {
 	@Test
 	public void testarCadastroCozinhaSemNome() {
 		//cenário
-		Gastronomia cozinha = new Gastronomia();
+		Cozinha cozinha = new Cozinha();
 		
 		
 		/*

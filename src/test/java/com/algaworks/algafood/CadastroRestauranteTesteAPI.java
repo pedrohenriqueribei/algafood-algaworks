@@ -15,7 +15,7 @@ import org.springframework.boot.test.web.server.LocalServerPort;
 import org.springframework.http.HttpStatus;
 import org.springframework.test.context.TestPropertySource;
 
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.model.Restaurante;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.repository.RestauranteRepository;
@@ -233,15 +233,15 @@ public class CadastroRestauranteTesteAPI {
 	
 	private void prepararDados() {
 
-		Gastronomia coz1 = new Gastronomia();
+		Cozinha coz1 = new Cozinha();
 		coz1.setNome("Tailandesa");
 		cozinhaRepository.save(coz1);
 		
-		Gastronomia coz2 = new Gastronomia();
+		Cozinha coz2 = new Cozinha();
 		coz2.setNome("Americana");
 		cozinhaRepository.save(coz2);
 		
-		Gastronomia coz3 = new Gastronomia();
+		Cozinha coz3 = new Cozinha();
 		coz3.setNome("Goiana");
 		cozinhaRepository.save(coz3);
 		

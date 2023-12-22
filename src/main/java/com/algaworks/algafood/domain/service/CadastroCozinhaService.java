@@ -8,7 +8,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.domain.exception.CozinhaNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
-import com.algaworks.algafood.domain.model.Gastronomia;
+import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 
 @Service
@@ -20,7 +20,7 @@ public class CadastroCozinhaService {
 	private CozinhaRepository cozinhaRepository;
 	
 	@Transactional
-	public Gastronomia salvar (Gastronomia cozinha) {
+	public Cozinha salvar (Cozinha cozinha) {
 		return cozinhaRepository.save(cozinha);
 	}
 	
@@ -35,7 +35,7 @@ public class CadastroCozinhaService {
 		}
 	}
 	
-	public Gastronomia buscarOuFalhar(Long cozinhaId) {
+	public Cozinha buscarOuFalhar(Long cozinhaId) {
 		return cozinhaRepository.findById(cozinhaId)
 				.orElseThrow(() -> new CozinhaNaoEncontradaException(cozinhaId));
 	}
