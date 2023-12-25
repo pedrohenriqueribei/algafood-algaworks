@@ -59,7 +59,9 @@ public class EstadoController {
 		
 		Estado estado = estadoDisassembler.paraDominio(estadoDTOinput);
 		
-		return  estadoAssembler.toDTO(cadastroEstadoService.salvar(estado));
+		estado = cadastroEstadoService.salvar(estado);
+		
+		return  estadoAssembler.toDTO(estado);
 	}
 	
 	@PutMapping("{id}")
