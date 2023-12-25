@@ -4,11 +4,9 @@ import java.util.List;
 
 import javax.validation.Valid;
 
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;
-import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -20,6 +18,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.CozinhaDTOAssembler;
+import com.algaworks.algafood.api.disassembler.CozinhaInputDisassembler;
+import com.algaworks.algafood.api.model.DTO.input.CozinhaDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.CozinhaDTO;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
@@ -38,6 +38,9 @@ public class CozinhaController {
 	
 	@Autowired
 	private CozinhaDTOAssembler cozinhaDTOAssembler;
+	
+	@Autowired
+	private CozinhaInputDisassembler cozinhaInputDisassembler;
 	
 	/*
 	 * produces define que o método pode retornar apenas resposta em formato determinado (no caso, JSON)
@@ -65,22 +68,32 @@ public class CozinhaController {
 	}
 	
 	@PostMapping
-	public ResponseEntity<Cozinha> adicionar (@RequestBody @Valid Cozinha cozinha) {
-		System.out.println("Chegou no método salvar");
+	@ResponseStatus(code = HttpStatus.CREATED)
+	public CozinhaDTO adicionar (
+			@RequestBody 
+			@Valid 
+			CozinhaDTOinput cozinhaDtOinput) {
 		
-		Cozinha cozinhaSalvada = cadastroCozinhaService.salvar(cozinha);
+		System.out.println("Chegou no método salvar cozinha");
 		
-		return ResponseEntity.status(HttpStatus.CREATED).body(cozinhaSalvada);
+		Cozinha cozinha = cozinhaInputDisassembler.deDTOparaCozinha(cozinhaDtOinput);
+		
+		return cozinhaDTOAssembler.toDTO(cadastroCozinhaService.salvar(cozinha));
 	}
 	
 	@PutMapping("{id}")
-	public Cozinha atualizar(@PathVariable Long id, @RequestBody @Valid Cozinha cozinha) {
+	public CozinhaDTO atualizar(
+			@PathVariable 
+			Long id, 
+			@RequestBody 
+			@Valid 
+			CozinhaDTOinput cozinhaDTOinput) {
 		
-		Cozinha cozinhaAtual = cadastroCozinhaService.buscarOuFalhar(id);
+		Cozinha cozinha = cadastroCozinhaService.buscarOuFalhar(id);
 		
-		BeanUtils.copyProperties(cozinha, cozinhaAtual, "id");
+		cozinhaInputDisassembler.copiarDeDTOparaModelo(cozinhaDTOinput, cozinha);
 		
-		return cadastroCozinhaService.salvar(cozinhaAtual); 
+		return cozinhaDTOAssembler.toDTO(cadastroCozinhaService.salvar(cozinha)); 
 	}
 
 	
