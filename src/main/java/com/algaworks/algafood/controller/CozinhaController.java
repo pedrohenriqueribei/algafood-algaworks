@@ -19,6 +19,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.algaworks.algafood.api.assembler.CozinhaDTOAssembler;
+import com.algaworks.algafood.api.model.DTO.output.CozinhaDTO;
 import com.algaworks.algafood.domain.model.Cozinha;
 import com.algaworks.algafood.domain.repository.CozinhaRepository;
 import com.algaworks.algafood.domain.service.CadastroCozinhaService;
@@ -34,13 +36,16 @@ public class CozinhaController {
 	@Autowired
 	private CadastroCozinhaService cadastroCozinhaService;
 	
+	@Autowired
+	private CozinhaDTOAssembler cozinhaDTOAssembler;
+	
 	/*
 	 * produces define que o método pode retornar apenas resposta em formato determinado (no caso, JSON)
 	 *	@GetMapping (produces = MediaType.APPLICATION_JSON_VALUE)
 	 */
 	@GetMapping
-	public List<Cozinha> listar (){
-		return cozinhaRepository.findAll();
+	public List<CozinhaDTO> listar (){
+		return cozinhaDTOAssembler.toCollectionDTO(cozinhaRepository.findAll());
 	}
 	
 	@GetMapping(produces = MediaType.APPLICATION_XML_VALUE)
@@ -51,8 +56,12 @@ public class CozinhaController {
 	
 	
 	@GetMapping( "{id}")
-	public Cozinha buscar (@PathVariable Long id) {
-		return cadastroCozinhaService.buscarOuFalhar(id);
+	public CozinhaDTO buscar (@PathVariable Long id) {
+		Cozinha cozinha = cadastroCozinhaService.buscarOuFalhar(id);
+		
+		CozinhaDTO cozinhaDTO = cozinhaDTOAssembler.toDTO(cozinha);
+		
+		return cozinhaDTO;
 	}
 	
 	@PostMapping
