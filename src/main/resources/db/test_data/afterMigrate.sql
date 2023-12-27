@@ -55,6 +55,8 @@ insert ignore into tb_restaurante (nome, taxa_frete, cozinha_id, data_cadastro, 
 insert ignore into tb_restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Lanchonete do Tio Sam', 11, 2, utc_timestamp, utc_timestamp);
 insert ignore into tb_restaurante (nome, taxa_frete, cozinha_id, data_cadastro, data_atualizacao) values ('Bar da Maria', 6, 1, utc_timestamp, utc_timestamp);
 
+update tb_restaurante set ativo = true where id <= 10;
+
 insert ignore into tb_permissao (id, nome, descricao) values (1, 'CONSULTAR_COZINHAS', 'Permite consultar cozinhas');
 insert ignore into tb_permissao (id, nome, descricao) values (2, 'EDITAR_COZINHAS', 'Permite editar cozinhas');
 

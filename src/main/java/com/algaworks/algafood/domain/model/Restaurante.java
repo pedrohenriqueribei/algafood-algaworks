@@ -72,6 +72,8 @@ public class Restaurante {
 	@Embedded
 	private Endereco endereco;
 	
+	private Boolean ativo = Boolean.TRUE;
+	
 	/*
 	 * a anotação @CreationTimestamp informa que a propriedade anotada deve ser atribuida com data e hora local do momento em que o objeto for criado
 	 * é do hibernate
@@ -104,5 +106,13 @@ public class Restaurante {
 				"Nome: "+getNome()+"\n"+
 				"Taxa: R$ "+getTaxaFrete()+"\n"+
 				"Cozinha: "+getCozinha().getNome();
+	}
+	
+	public void ativar() {
+		setAtivo(true);
+	}
+	
+	public void inativar() {
+		setAtivo(false);
 	}
 }

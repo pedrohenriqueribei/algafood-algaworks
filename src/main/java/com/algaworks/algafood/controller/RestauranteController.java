@@ -15,6 +15,7 @@ import org.springframework.http.server.ServletServerHttpRequest;
 import org.springframework.util.ReflectionUtils;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.validation.SmartValidator;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PatchMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -166,43 +167,20 @@ public class RestauranteController {
 		}
 	}
 	
+	//PUT 	 /restaurante/{id}/ativo
+	@PutMapping("/{restauranteId}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void ativar(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.ativar(restauranteId);
+	}
 	
+	//DELETE /restaurante/{id}/ativo
+	@DeleteMapping("/{restauranteId}/ativo")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void inativar(@PathVariable Long restauranteId) {
+		cadastroRestauranteService.inativar(restauranteId);
+	}
 	
+	//GET 	 /restaurante/{id}/ativo
 	
-	
-	/*
-	 * código antigo
-	 */
-//	@GetMapping("{id}")
-//	public ResponseEntity<Restaurante> buscar (@PathVariable Long id) {
-//		
-//		Restaurante restaurante = restauranteRepository.findById(id).get();
-//		
-//		if(restaurante != null) {
-//			return ResponseEntity.ok(restaurante);
-//		}
-//		
-//		return ResponseEntity.notFound().build();
-//	}
-//	@PutMapping("{id}")
-//	public ResponseEntity<?> atualizar (@PathVariable Long id,@RequestBody Restaurante restaurante){
-//		
-//		try {
-//			Restaurante restauranteAtual = restauranteRepository.findById(id).get();
-//			
-//			if(restauranteAtual != null) {
-//
-//				//copie os dados de resstaurante para restauranteAtual e ignore os campos: id e formasPagamento
-//				BeanUtils.copyProperties(restaurante, restauranteAtual, "id", "formasPagamento", "endereco", "dataCadastro", "produtos");
-//				restauranteAtual = cadastroRestauranteService.salvar(restauranteAtual);
-//				return ResponseEntity.ok(restauranteAtual);
-//
-//			}
-//			//se o restaurante não for encontrado
-//			return ResponseEntity.notFound().build();
-//			
-//		} catch (EntidadeNaoEncontradaException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-//	}
 }
