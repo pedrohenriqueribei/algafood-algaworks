@@ -72,3 +72,5 @@ insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, a
 insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, ativo, restaurante_id) values ('T-Bone', 'Corte muito saboroso, com um osso em formato de T, sendo de um lado o contrafilé e do outro o filé mignon', 89, 1, 4);
 insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, ativo, restaurante_id) values ('Sanduíche X-Tudo', 'Sandubão com muito queijo, hamburger bovino, bacon, ovo, salada e maionese', 19, 1, 5);
 insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
+
+insert ignore into tb_grupo (nome) values ('Gerente'),('Vendedor'),('Secretaria'),('Cadastrador');
