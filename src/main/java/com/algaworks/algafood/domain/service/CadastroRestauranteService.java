@@ -41,7 +41,7 @@ public class CadastroRestauranteService {
 	public void ativar(Long restauranteId) {
 		Restaurante restaurante = buscarOuFalhar(restauranteId);
 		
-		restaurante.ativar();;
+		restaurante.ativar();
 	}
 	
 	@Transactional

@@ -4,6 +4,7 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import com.algaworks.algafood.api.model.DTO.input.UsuarioAtualizarDTOinput;
 import com.algaworks.algafood.api.model.DTO.input.UsuarioDTOinput;
 import com.algaworks.algafood.domain.model.Usuario;
 
@@ -17,7 +18,7 @@ public class UsuarioDisassembler {
 		return modelMapper.map(usuarioDTOinput, Usuario.class);
 	}
 	
-	public void copiarParaDominio(UsuarioDTOinput dtOinput, Usuario usuario) {
+	public void copiarParaDominio(UsuarioAtualizarDTOinput dtOinput, Usuario usuario) {
 		modelMapper.map(dtOinput, usuario);
 	}
 }

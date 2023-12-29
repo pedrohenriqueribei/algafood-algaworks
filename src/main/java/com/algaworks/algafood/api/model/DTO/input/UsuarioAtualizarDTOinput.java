@@ -8,7 +8,7 @@ import lombok.Setter;
 
 @Setter
 @Getter
-public class UsuarioDTOinput {
+public class UsuarioAtualizarDTOinput {
 
 	@NotBlank
 	private String nome;
@@ -16,7 +16,4 @@ public class UsuarioDTOinput {
 	@NotBlank
 	@Email
 	private String email;
-	
-	@NotBlank
-	private String senha;
 }

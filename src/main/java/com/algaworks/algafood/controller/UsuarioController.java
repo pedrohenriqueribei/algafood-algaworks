@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.UsuarioAssembler;
 import com.algaworks.algafood.api.disassembler.UsuarioDisassembler;
+import com.algaworks.algafood.api.model.DTO.input.UsuarioAtualizarDTOinput;
 import com.algaworks.algafood.api.model.DTO.input.UsuarioDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.UsuarioDTO;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -68,10 +69,10 @@ public class UsuarioController {
 			Long id, 
 			@RequestBody
 			@Valid
-			UsuarioDTOinput usuarioDTOinput) {
+			UsuarioAtualizarDTOinput usuarioAtualizaDTOinput) {
 		
 		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(id);
-		usuarioDisassembler.copiarParaDominio(usuarioDTOinput, usuario);
+		usuarioDisassembler.copiarParaDominio(usuarioAtualizaDTOinput, usuario);
 		
 		return usuarioAssembler.toDTO(cadastroUsuarioService.salvar(usuario));
 	}
