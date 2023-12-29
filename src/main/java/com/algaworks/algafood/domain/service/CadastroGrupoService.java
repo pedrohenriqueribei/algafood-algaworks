@@ -15,6 +15,7 @@ import com.algaworks.algafood.domain.repository.GrupoRepository;
 public class CadastroGrupoService {
 
 	private static final String MGS_GRUPO_NEGADO = "Grupo não pode ser removido!";
+	
 	@Autowired
 	private GrupoRepository grupoRepository;
 	

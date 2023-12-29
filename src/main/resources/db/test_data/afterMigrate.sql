@@ -74,3 +74,5 @@ insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, a
 insert ignore into tb_produto (produto_nome, produto_descricao, produto_preco, ativo, restaurante_id) values ('Espetinho de Cupim', 'Acompanha farinha, mandioca e vinagrete', 8, 1, 6);
 
 insert ignore into tb_grupo (nome) values ('Gerente'),('Vendedor'),('Secretaria'),('Cadastrador');
+
+insert ignore into tb_usuario (nome, email, senha, data_cadastro) values ('Ana Kristinna','anna.kris@gmail.com','sfskjdfh', now()),('Maria Eduarda','duda@gmail.com','1234',now()),('Fernanda','fer.danda.bubu@gmail.com','sdfksjf',now()), ('Endrick','endck@hotmail.com','dsfkjs234324', now());
