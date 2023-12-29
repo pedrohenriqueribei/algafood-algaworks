@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.UsuarioAssembler;
 import com.algaworks.algafood.api.disassembler.UsuarioDisassembler;
+import com.algaworks.algafood.api.model.DTO.input.UsuarioAlterarSenhaDTOinput;
 import com.algaworks.algafood.api.model.DTO.input.UsuarioAtualizarDTOinput;
 import com.algaworks.algafood.api.model.DTO.input.UsuarioDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.UsuarioDTO;
@@ -75,6 +76,20 @@ public class UsuarioController {
 		usuarioDisassembler.copiarParaDominio(usuarioAtualizaDTOinput, usuario);
 		
 		return usuarioAssembler.toDTO(cadastroUsuarioService.salvar(usuario));
+	}
+	
+	@PutMapping("{id}/senha")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void alterarSenha(
+			@PathVariable
+			Long id,
+			@RequestBody 
+			@Valid 
+			UsuarioAlterarSenhaDTOinput alterarSenhaDTOinput) {
+		
+		Usuario usuario = cadastroUsuarioService.buscarOuFalhar(id);
+		
+		cadastroUsuarioService.alterarSenha(usuario, alterarSenhaDTOinput);
 	}
 	
 	@DeleteMapping("{id}")

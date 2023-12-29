@@ -8,7 +8,9 @@ import org.springframework.dao.EmptyResultDataAccessException;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.algaworks.algafood.api.model.DTO.input.UsuarioAlterarSenhaDTOinput;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.SenhaNaoConfereException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
@@ -17,6 +19,8 @@ import com.algaworks.algafood.domain.repository.UsuarioRepository;
 public class CadastroUsuarioService {
 
 	private static final String MGS_USUARIO_NAO_ENCONTRADO = "Usuário não pode ser removido!!";
+
+	private static final String SENHA_INCORRETA = "A senha atual incorreta";
 	
 	@Autowired
 	private UsuarioRepository usuarioRepositorio;
@@ -44,5 +48,17 @@ public class CadastroUsuarioService {
 	
 	public List<Usuario> listar(){
 		return usuarioRepositorio.findAll();
+	}
+	
+	@Transactional
+	public void alterarSenha(Usuario usuario, UsuarioAlterarSenhaDTOinput dtoInput) {
+		System.out.println(usuario.getSenha());
+		System.out.println(dtoInput.getSenhaAtual());
+		
+		if(usuario.senhaCoincidemCom(dtoInput.getSenhaAtual())) {
+			usuario.setSenha(dtoInput.getNovaSenha());
+		} else {
+			throw new SenhaNaoConfereException(SENHA_INCORRETA);
+		}
 	}
 }
