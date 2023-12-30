@@ -1,6 +1,9 @@
 package com.algaworks.algafood.domain.service;
 
 import java.util.List;
+import java.util.Optional;
+
+import javax.persistence.EntityManager;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
@@ -10,6 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.algaworks.algafood.api.model.DTO.input.UsuarioAlterarSenhaDTOinput;
 import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.SenhaNaoConfereException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Usuario;
@@ -25,8 +29,20 @@ public class CadastroUsuarioService {
 	@Autowired
 	private UsuarioRepository usuarioRepositorio;
 	
+	@Autowired
+	private EntityManager entityManager;
+	
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
+		
+		entityManager.detach(usuario);
+		
+		Optional<Usuario> usuarioExistente = usuarioRepositorio.findByEmail(usuario.getEmail());
+		
+		if(usuarioExistente.isPresent() && !usuarioExistente.get().equals(usuario)) {
+			throw new NegocioException("Já existe um usuário cadastrado com o e-mail: " +usuarioExistente.get().getEmail());
+		}
+		
 		return usuarioRepositorio.save(usuario);
 	}
 	
@@ -52,8 +68,6 @@ public class CadastroUsuarioService {
 	
 	@Transactional
 	public void alterarSenha(Usuario usuario, UsuarioAlterarSenhaDTOinput dtoInput) {
-		System.out.println(usuario.getSenha());
-		System.out.println(dtoInput.getSenhaAtual());
 		
 		if(usuario.senhaCoincidemCom(dtoInput.getSenhaAtual())) {
 			usuario.setSenha(dtoInput.getNovaSenha());
