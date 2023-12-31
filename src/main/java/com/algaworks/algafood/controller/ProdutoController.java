@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.ProdutoDTOAssembler;
-import com.algaworks.algafood.api.model.DTO.input.ProdutoDTOinput;
+import com.algaworks.algafood.api.disassembler.ProdutoDisassembler;
+import com.algaworks.algafood.api.model.DTO.input.ProdutoComRestauranteDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.ProdutoDTO;
 import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
@@ -33,6 +34,9 @@ public class ProdutoController {
 	@Autowired
 	private ProdutoDTOAssembler produtoDTOAssembler;
 	
+	@Autowired
+	private ProdutoDisassembler produtoDisassembler;
+	
 	@GetMapping
 	public List<ProdutoDTO> listar(){
 		return produtoDTOAssembler.paraColecaoDTO(produtoRepository.findAll());
@@ -40,9 +44,9 @@ public class ProdutoController {
 	
 	@PostMapping
 	@ResponseStatus(code = HttpStatus.CREATED)
-	public ProdutoDTO incluir (@RequestBody ProdutoDTOinput produtoDTOinput) {
+	public ProdutoDTO incluir (@RequestBody ProdutoComRestauranteDTOinput produtoDTOinput) {
 		try {
-			Produto produto = produtoDTOAssembler.toDomainObject(produtoDTOinput);
+			Produto produto = produtoDisassembler.toDomainObject(produtoDTOinput);
 			Produto produtoPersist = cadastroProdutoService.salvar(produto);
 			return produtoDTOAssembler.paraDTO(produtoPersist);
 		} catch(EntidadeNaoEncontradaException e) {

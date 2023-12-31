@@ -7,7 +7,6 @@ import org.modelmapper.ModelMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import com.algaworks.algafood.api.model.DTO.input.ProdutoDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.ProdutoDTO;
 import com.algaworks.algafood.domain.model.Produto;
 
@@ -25,10 +24,5 @@ public class ProdutoDTOAssembler {
 		return produtos.stream()
 				.map(produto -> paraDTO(produto))
 				.collect(Collectors.toList());
-	}
-	
-	public Produto toDomainObject(ProdutoDTOinput input) {
-		Produto produto = modelMapper.map(input, Produto.class);
-		return produto;
 	}
 }

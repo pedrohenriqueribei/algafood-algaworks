@@ -2,7 +2,9 @@ package com.algaworks.algafood.api.model.DTO.input;
 
 import java.math.BigDecimal;
 
-import com.algaworks.algafood.domain.model.Restaurante;
+import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
+import javax.validation.constraints.PositiveOrZero;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -11,10 +13,16 @@ import lombok.Setter;
 @Setter
 public class ProdutoDTOinput {
 
-private String nome;
+	@NotBlank
+	private String nome;
 	
+	@NotBlank
 	private String descricao;
+	
+	@PositiveOrZero
 	private BigDecimal preco;
+	
+	@NotNull
 	private Boolean ativo;
-	private Restaurante restaurante;
+	
 }

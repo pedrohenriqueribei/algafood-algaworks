@@ -2,8 +2,6 @@ package com.algaworks.algafood.api.model.DTO.output;
 
 import java.math.BigDecimal;
 
-import com.algaworks.algafood.domain.model.Restaurante;
-
 import lombok.Getter;
 import lombok.Setter;
 
@@ -16,5 +14,4 @@ public class ProdutoDTO {
 	private String nome;
 	private BigDecimal preco;
 	private Boolean ativo;
-	private Restaurante restaurante;
 }
