@@ -182,6 +182,6 @@ public class RestauranteController {
 		cadastroRestauranteService.inativar(restauranteId);
 	}
 	
-	//GET 	 /restaurante/{id}/ativo
+	
 	
 }
