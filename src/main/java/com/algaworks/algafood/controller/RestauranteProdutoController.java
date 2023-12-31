@@ -85,7 +85,7 @@ public class RestauranteProdutoController {
 			ProdutoDTOinput produtoDTOinput) {
 		
 		try {
-			Produto produto = cadastroProdutoService.buscarOuFalhar(produtoId);
+			Produto produto = cadastroProdutoService.buscarOuFalhar(restauranteId, produtoId);
 			Restaurante restaurante = cadastroRestauranteService.buscarOuFalhar(restauranteId);
 			produto.setRestaurante(restaurante);
 			produtoDisassembler.copiarParaDominio(produtoDTOinput, produto);

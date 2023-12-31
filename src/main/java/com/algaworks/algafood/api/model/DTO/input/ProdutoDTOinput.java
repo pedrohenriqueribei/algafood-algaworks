@@ -19,6 +19,7 @@ public class ProdutoDTOinput {
 	@NotBlank
 	private String descricao;
 	
+	@NotNull
 	@PositiveOrZero
 	private BigDecimal preco;
 	

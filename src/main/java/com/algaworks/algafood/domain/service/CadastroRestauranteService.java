@@ -6,7 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.ProdutoNaoEncontradoException;
 import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Cidade;
 import com.algaworks.algafood.domain.model.Cozinha;
@@ -87,7 +87,7 @@ public class CadastroRestauranteService {
 		Optional<Produto> produto = produtoRepository.findProdutoById(produtoId);
 		
 		if(!produto.isPresent() || produto.get().getRestaurante().getId() != restauranteId) {
-			throw new NegocioException(String.format("Produto %d não encontrado para o restaurante %d!!", produtoId, restauranteId));
+			throw new ProdutoNaoEncontradoException(restauranteId, produtoId);
 		} 
 		
 		return produto.get();

@@ -8,8 +8,8 @@ public class ProdutoNaoEncontradoException extends EntidadeNaoEncontradaExceptio
 		super(mensagem);
 	}
 
-	public ProdutoNaoEncontradoException(Long produtoId) {
-		this("Não existe cadastro de Produto com código: " + produtoId);
+	public ProdutoNaoEncontradoException(Long restauranteId, Long produtoId) {
+		this(String.format("Produto %d não encontrado para o restaurante %d!!", produtoId, restauranteId));
 	}
 
 }
