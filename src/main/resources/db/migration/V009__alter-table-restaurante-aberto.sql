@@ -1,0 +1,1 @@
+alter table tb_restaurante add aberto tinyint(1);

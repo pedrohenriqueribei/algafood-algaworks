@@ -93,5 +93,17 @@ public class CadastroRestauranteService {
 		return produto.get();
 	}
 	
+	@Transactional
+	public void abrirRestaurante(Long restauranteId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		restaurante.abrir();
+	}
+	
+	@Transactional
+	public void fecharRestaurante(Long restauranteId) {
+		Restaurante restaurante = buscarOuFalhar(restauranteId);
+		restaurante.fechar();
+	}
+	
 
 }

@@ -76,6 +76,8 @@ public class Restaurante {
 	
 	private Boolean ativo = Boolean.TRUE;
 	
+	private Boolean aberto = Boolean.FALSE;
+	
 	/*
 	 * a anotação @CreationTimestamp informa que a propriedade anotada deve ser atribuida com data e hora local do momento em que o objeto for criado
 	 * é do hibernate
@@ -124,5 +126,13 @@ public class Restaurante {
 	
 	public boolean removerFormaPagamento (FormaPagamento formaPagamento) {
 		return getFormasPagamento().remove(formaPagamento);
+	}
+	
+	public void abrir() {
+		setAberto(true);
+	}
+	
+	public void fechar() {
+		setAberto(false);
 	}
 }
