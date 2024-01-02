@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.GrupoDTOAssembler;
+import com.algaworks.algafood.api.assembler.PermissaoDTOAssembler;
 import com.algaworks.algafood.api.disassembler.GrupoDisassembler;
 import com.algaworks.algafood.api.model.DTO.input.GrupoDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.GrupoDTO;
+import com.algaworks.algafood.api.model.DTO.output.PermissaoDTO;
 import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
@@ -40,6 +42,9 @@ public class GrupoController {
 	@Autowired
 	private GrupoDisassembler grupoDisassembler;
 	
+	@Autowired
+	private PermissaoDTOAssembler permissaoDTOAssembler;
+	
 	@GetMapping
 	public List<GrupoDTO> listar (){
 		return grupoDTOAssembler.toCollectDTO(grupoRepository.findAll());
@@ -49,6 +54,24 @@ public class GrupoController {
 	@GetMapping("{id}")
 	public GrupoDTO buscar(@PathVariable Long id) {
 		return grupoDTOAssembler.toDTO(cadastroGrupoService.buscarOuFalhar(id));
+	}
+	
+	@GetMapping("{grupoId}/permissoes")
+	public List<PermissaoDTO> listarPermissoes(@PathVariable Long grupoId) {
+		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
+		return permissaoDTOAssembler.toCollectDTO(grupo.getPermissoes());
+	}
+	
+	@PutMapping("{grupoId}/permissoes/{permissaoId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void associarPermissao(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
+		cadastroGrupoService.associarPermissao(grupoId, permissaoId);
+	}
+	
+	@DeleteMapping("{grupoId}/permissoes/{permissaoId}")
+	@ResponseStatus(HttpStatus.NO_CONTENT)
+	public void desassociarPermissao(@PathVariable Long grupoId, @PathVariable Long permissaoId) {
+		cadastroGrupoService.desassociarPermissao(grupoId, permissaoId);
 	}
 	
 	@PostMapping
