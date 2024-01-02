@@ -23,15 +23,11 @@ import com.algaworks.algafood.api.model.DTO.input.GrupoDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.GrupoDTO;
 import com.algaworks.algafood.api.model.DTO.output.PermissaoDTO;
 import com.algaworks.algafood.domain.model.Grupo;
-import com.algaworks.algafood.domain.repository.GrupoRepository;
 import com.algaworks.algafood.domain.service.CadastroGrupoService;
 
 @RestController
 @RequestMapping("grupos")
 public class GrupoController {
-	
-	@Autowired
-	private GrupoRepository grupoRepository;
 	
 	@Autowired
 	private CadastroGrupoService cadastroGrupoService;
@@ -47,7 +43,7 @@ public class GrupoController {
 	
 	@GetMapping
 	public List<GrupoDTO> listar (){
-		return grupoDTOAssembler.toCollectDTO(grupoRepository.findAll());
+		return grupoDTOAssembler.toCollectDTO(cadastroGrupoService.todos());
 	}
 	
 	

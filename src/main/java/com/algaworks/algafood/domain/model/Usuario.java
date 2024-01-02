@@ -52,4 +52,12 @@ public class Usuario {
 	public boolean senhaCoincidemCom(String senha) {
 		return getSenha().equals(senha);
 	}
+	
+	public boolean incluirGrupo(Grupo grupo) {
+		return getGrupos().add(grupo);
+	}
+	
+	public boolean removerGrupo(Grupo grupo) {
+		return getGrupos().remove(grupo);
+	}
 }

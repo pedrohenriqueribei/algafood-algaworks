@@ -1,5 +1,7 @@
 package com.algaworks.algafood.domain.service;
 
+import java.util.List;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
@@ -54,6 +56,10 @@ public class CadastroGrupoService {
 	public void desassociarPermissao(Long grupoId, Long permissaoId) {
 		Grupo grupo = buscarOuFalhar(grupoId);
 		grupo.desassociarPermissao(cadastroPermissaoService.buscarOuFalhar(permissaoId));
+	}
+
+	public List<Grupo> todos() {
+		return grupoRepository.findAll();
 	}
 	
 	

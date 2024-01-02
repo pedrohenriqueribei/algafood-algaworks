@@ -16,6 +16,7 @@ import com.algaworks.algafood.domain.exception.EntidadeEmUsoException;
 import com.algaworks.algafood.domain.exception.NegocioException;
 import com.algaworks.algafood.domain.exception.SenhaNaoConfereException;
 import com.algaworks.algafood.domain.exception.UsuarioNaoEncontradoException;
+import com.algaworks.algafood.domain.model.Grupo;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.repository.UsuarioRepository;
 
@@ -31,6 +32,9 @@ public class CadastroUsuarioService {
 	
 	@Autowired
 	private EntityManager entityManager;
+	
+	@Autowired
+	private CadastroGrupoService cadastroGrupoService;
 	
 	@Transactional
 	public Usuario salvar(Usuario usuario) {
@@ -75,4 +79,18 @@ public class CadastroUsuarioService {
 			throw new SenhaNaoConfereException(SENHA_INCORRETA);
 		}
 	}
+	
+	@Transactional
+	public void incluirGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarOuFalhar(usuarioId);
+		usuario.incluirGrupo(cadastroGrupoService.buscarOuFalhar(grupoId));
+	}
+	
+	@Transactional
+	public void removerGrupo(Long usuarioId, Long grupoId) {
+		Usuario usuario = buscarOuFalhar(usuarioId);
+		Grupo grupo = cadastroGrupoService.buscarOuFalhar(grupoId);
+		usuario.removerGrupo(grupo);
+	}
+	
 }

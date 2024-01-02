@@ -77,4 +77,6 @@ insert ignore into tb_grupo (nome) values ('Gerente'),('Vendedor'),('Secretaria'
 
 insert ignore into tb_usuario (nome, email, senha, data_cadastro) values ('Ana Kristinna','anna.kris@gmail.com','sfskjdfh', now()),('Maria Eduarda','duda@gmail.com','1234',now()),('Fernanda','fer.danda.bubu@gmail.com','sdfksjf',now()), ('Endrick','endck@hotmail.com','dsfkjs234324', now());
 
-insert into tb_grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1); 
+insert into tb_grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
+
+insert into tb_usuario_grupos (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2); 
