@@ -80,3 +80,10 @@ insert ignore into tb_usuario (nome, email, senha, data_cadastro) values ('Ana K
 insert into tb_grupo_permissao (grupo_id, permissao_id) values (1, 1), (1, 2), (2, 1), (2, 2), (3, 1);
 
 insert into tb_usuario_grupos (usuario_id, grupo_id) values (1, 1), (1, 2), (2, 2); 
+
+delete from tb_restaurante_usuarios_responsaveis;
+
+insert into tb_usuario (id, nome, email, senha, data_cadastro) values
+(5, 'Manoel Lima', 'manoel.loja@gmail.com', '123', utc_timestamp);
+
+insert into tb_restaurante_usuarios_responsaveis (restaurante_id, usuario_id) values (1, 5), (3, 5);

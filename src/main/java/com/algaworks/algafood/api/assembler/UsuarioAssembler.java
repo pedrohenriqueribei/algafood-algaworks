@@ -1,5 +1,6 @@
 package com.algaworks.algafood.api.assembler;
 
+import java.util.Collection;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -20,7 +21,7 @@ public class UsuarioAssembler {
 		return modelMapper.map(usuario, UsuarioDTO.class);
 	}
 	
-	public List<UsuarioDTO> toCollectDTO (List<Usuario> usuarios){
+	public List<UsuarioDTO> toCollectDTO (Collection<Usuario> usuarios){
 		return usuarios.stream()
 				.map(user -> toDTO(user))
 				.collect(Collectors.toList());

@@ -49,6 +49,9 @@ public class Usuario {
 			inverseJoinColumns = @JoinColumn(name = "grupo_id"))
 	private List<Grupo> grupos = new ArrayList<>();
 	
+	@ManyToMany(mappedBy = "usuarios")
+	private List<Restaurante> restaurantes = new ArrayList<>();
+	
 	public boolean senhaCoincidemCom(String senha) {
 		return getSenha().equals(senha);
 	}
