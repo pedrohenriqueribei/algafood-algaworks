@@ -8,6 +8,8 @@ import java.util.List;
 import javax.persistence.Column;
 import javax.persistence.Embedded;
 import javax.persistence.Entity;
+import javax.persistence.EnumType;
+import javax.persistence.Enumerated;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -35,7 +37,9 @@ public class Pedido {
 	private BigDecimal subtotal;
 	private BigDecimal taxaFrete;
 	private BigDecimal valorTotal;
-	private StatusPedido statusPedido;
+	
+	@Enumerated(EnumType.STRING)
+	private StatusPedido statusPedido = StatusPedido.CRIADO;
 
 	@Embedded
 	private Endereco enderecoEntrega;
@@ -59,7 +63,7 @@ public class Pedido {
 	
 	
 	@ManyToOne
-	@JoinColumn(name="usuario_cliente_id", nullable = false)
+	@JoinColumn(name="usuario_id", nullable = false)
 	private Usuario cliente;
 	
 	@ManyToOne
@@ -68,4 +72,20 @@ public class Pedido {
 	
 	@OneToMany(mappedBy = "pedido")
 	private List<ItemPedido> itensPedido = new ArrayList<>();
+	
+	public void calcularValorTotal() {
+	    this.subtotal = getItensPedido().stream()
+	        .map(item -> item.getPrecoTotal())
+	        .reduce(BigDecimal.ZERO, BigDecimal::add);
+	    
+	    this.valorTotal = this.subtotal.add(this.taxaFrete);
+	}
+
+	public void definirFrete() {
+	    setTaxaFrete(getRestaurante().getTaxaFrete());
+	}
+
+	public void atribuirPedidoAosItens() {
+	    getItensPedido().forEach(item -> item.setPedido(this));
+	}
 }

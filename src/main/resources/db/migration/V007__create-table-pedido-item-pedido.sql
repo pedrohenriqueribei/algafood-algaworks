@@ -1,14 +1,17 @@
+DROP TABLE IF EXISTS tb_pedido;
+DROP TABLE IF EXISTS tb_item_pedido;
+
 CREATE TABLE tb_pedido (
 	id BIGINT not null AUTO_INCREMENT,
     subtotal DECIMAL(10,2) NOT NULL,
-    taxaFrete DECIMAL(10,2) NOT NULL,
-    valorTotal DECIMAL(10,2) NOT NULL,
+    taxa_frete DECIMAL(10,2) NOT NULL,
+    valor_total DECIMAL(10,2) NOT NULL,
     data_criacao DATETIME NOT NULL,
     data_confirmacao DATETIME,
     data_cancelamento DATETIME,
     data_entrega DATETIME,
     
-    status VARCHAR(10) NOT NULL,
+    status_pedido VARCHAR(10) NOT NULL,
     
     endereco_cidade_id bigint(20) not null,
     endereco_cep varchar(9) not null,
