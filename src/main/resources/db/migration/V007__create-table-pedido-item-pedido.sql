@@ -41,7 +41,7 @@ CREATE TABLE tb_item_pedido (
     quantidade SMALLINT(6) NOT NULL,
     preco_unitario DECIMAL(10,2) NOT NULL,
     preco_total DECIMAL(10,2) NOT NULL,
-    observacao VARCHAR(60) NOT NULL,
+    observacao VARCHAR(255),
     pedido_id BIGINT NOT NULL,
     produto_id BIGINT NOT NULL,
     
