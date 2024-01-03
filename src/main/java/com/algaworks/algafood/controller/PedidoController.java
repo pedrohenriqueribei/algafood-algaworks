@@ -15,9 +15,11 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.algaworks.algafood.api.assembler.PedidoAssembler;
+import com.algaworks.algafood.api.assembler.PedidoResumoAssembler;
 import com.algaworks.algafood.api.disassembler.PedidoDisassembler;
 import com.algaworks.algafood.api.model.DTO.input.PedidoInputDTO;
 import com.algaworks.algafood.api.model.DTO.output.PedidoDTO;
+import com.algaworks.algafood.api.model.DTO.output.PedidoResumoDTO;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.service.CadastroPedidoService;
 
@@ -32,11 +34,14 @@ public class PedidoController {
 	private PedidoAssembler pedidoAssembler;
 	
 	@Autowired
+	private PedidoResumoAssembler pedidoResumoAssembler;
+	
+	@Autowired
 	private PedidoDisassembler pedidoDisassembler;
 	
 	@GetMapping
-	public List<PedidoDTO> listar(){
-		return pedidoAssembler.toCollectDTO(cadastroPedidoService.listar());
+	public List<PedidoResumoDTO> listar(){
+		return pedidoResumoAssembler.toCollectDTO(cadastroPedidoService.listar());
 	}
 	
 	@GetMapping("{pedidoId}")
@@ -61,4 +66,5 @@ public class PedidoController {
 //		}
 		return pedidoAssembler.toDTO(pedido);
 	}
+	
 }
