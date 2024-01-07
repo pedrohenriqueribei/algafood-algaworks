@@ -17,10 +17,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.algaworks.algafood.api.assembler.PedidoAssembler;
 import com.algaworks.algafood.api.assembler.PedidoResumoAssembler;
 import com.algaworks.algafood.api.disassembler.PedidoDisassembler;
-import com.algaworks.algafood.api.model.DTO.input.PedidoInputDTO;
+import com.algaworks.algafood.api.model.DTO.input.PedidoDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.PedidoDTO;
 import com.algaworks.algafood.api.model.DTO.output.PedidoResumoDTO;
+import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
+import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.NegocioException;
+import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Pedido;
+import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.CadastroPedidoService;
 
 @RestController
@@ -54,17 +59,26 @@ public class PedidoController {
 	public PedidoDTO incluir (
 			@RequestBody 
 			@Valid
-			PedidoInputDTO pedidoInputDTO) {
+			PedidoDTOinput pedidoInputDTO) {
 		
-		Pedido pedido = pedidoDisassembler.toDomainObject(pedidoInputDTO);
 		
-//		try {
+		try {
+			Pedido pedido = pedidoDisassembler.toDomainObject(pedidoInputDTO);
+			pedido.setCliente(new Usuario());
+			pedido.getCliente().setId(1L);
 //			pedido = cadastroPedidoService.salvar(pedido);
-//			
-//		} catch (EntidadeNaoEncontradaException e) {
-//			return ResponseEntity.badRequest().body(e.getMessage());
-//		}
-		return pedidoAssembler.toDTO(pedido);
+			
+			System.out.println();
+			System.out.println("Itens Produto Nome");
+			System.out.println(pedido.getItens().get(0).getProduto().getDescricao());
+			
+			System.out.println("Itens Cliente Nome");
+			System.out.println(pedido.getCliente().getNome());
+			
+			return pedidoAssembler.toDTO(cadastroPedidoService.salvar(pedido));
+		} catch (RestauranteNaoEncontradoException | FormaPagamentoNaoEncontradoException | CidadeNaoEncontradaException e) {
+			throw new NegocioException(e.getMessage(), e);	
+		}
 	}
 	
 }

@@ -26,6 +26,8 @@ alter table tb_permissao auto_increment = 1;
 alter table tb_produto auto_increment = 1;
 alter table tb_restaurante auto_increment = 1;
 alter table tb_usuario auto_increment = 1;
+alter table tb_pedido auto_increment = 1;
+alter table tb_item_pedido auto_increment = 1;
 
 insert ignore into tb_cozinha (nome) values ('Americana');
 insert ignore into tb_cozinha (nome) values ('Brasileira');
