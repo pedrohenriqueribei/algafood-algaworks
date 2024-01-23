@@ -20,10 +20,8 @@ import com.algaworks.algafood.api.disassembler.PedidoDisassembler;
 import com.algaworks.algafood.api.model.DTO.input.PedidoDTOinput;
 import com.algaworks.algafood.api.model.DTO.output.PedidoDTO;
 import com.algaworks.algafood.api.model.DTO.output.PedidoResumoDTO;
-import com.algaworks.algafood.domain.exception.CidadeNaoEncontradaException;
-import com.algaworks.algafood.domain.exception.FormaPagamentoNaoEncontradoException;
+import com.algaworks.algafood.domain.exception.EntidadeNaoEncontradaException;
 import com.algaworks.algafood.domain.exception.NegocioException;
-import com.algaworks.algafood.domain.exception.RestauranteNaoEncontradoException;
 import com.algaworks.algafood.domain.model.Pedido;
 import com.algaworks.algafood.domain.model.Usuario;
 import com.algaworks.algafood.domain.service.CadastroPedidoService;
@@ -61,22 +59,21 @@ public class PedidoController {
 			@Valid
 			PedidoDTOinput pedidoInputDTO) {
 		
-		
 		try {
 			Pedido pedido = pedidoDisassembler.toDomainObject(pedidoInputDTO);
 			pedido.setCliente(new Usuario());
 			pedido.getCliente().setId(1L);
 //			pedido = cadastroPedidoService.salvar(pedido);
 			
-			System.out.println();
-			System.out.println("Itens Produto Nome");
-			System.out.println(pedido.getItens().get(0).getProduto().getDescricao());
 			
-			System.out.println("Itens Cliente Nome");
-			System.out.println(pedido.getCliente().getNome());
 			
-			return pedidoAssembler.toDTO(cadastroPedidoService.salvar(pedido));
-		} catch (RestauranteNaoEncontradoException | FormaPagamentoNaoEncontradoException | CidadeNaoEncontradaException e) {
+			pedido = cadastroPedidoService.salvar(pedido);
+			
+			
+			
+			return pedidoAssembler.toDTO(pedido);
+			
+		} catch (EntidadeNaoEncontradaException e) {
 			throw new NegocioException(e.getMessage(), e);	
 		}
 	}

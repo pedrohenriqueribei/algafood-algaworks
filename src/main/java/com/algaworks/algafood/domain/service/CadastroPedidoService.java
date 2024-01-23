@@ -78,6 +78,10 @@ public class CadastroPedidoService {
 	
 	private void validarItens(Pedido pedido) {
 		for (ItemPedido item : pedido.getItens()) {
+			
+			System.out.println("ID rest = "+pedido.getRestaurante().getId());
+			System.out.println("ID prod = "+item.getProduto().getId());
+			
 			Produto produto = cadastroProdutoService.buscarOuFalhar(pedido.getRestaurante().getId(), item.getProduto().getId());
 			
 			item.setPedido(pedido);

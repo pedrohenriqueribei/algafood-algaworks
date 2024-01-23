@@ -4,24 +4,20 @@ import org.modelmapper.ModelMapper;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 
+import com.algaworks.algafood.api.model.DTO.input.ItemPedidoDTOinput;
+import com.algaworks.algafood.domain.model.ItemPedido;
+
 @Configuration
 public class ModelMapperConfig {
 
     @Bean
-    ModelMapper modelMapper() {
+    public ModelMapper modelMapper() {
 		var modelMapper = new ModelMapper();
 		
-//		modelMapper.createTypeMap(Restaurante.class, RestauranteDTO.class).addMapping(Restaurante::getTaxaFrete, RestauranteDTO::setTaxaFrete);
+		modelMapper.createTypeMap(ItemPedidoDTOinput.class, ItemPedido.class)
+        .addMappings(mapper -> mapper.skip(ItemPedido::setId));
 		
-//		modelMapper.createTypeMap(ItemPedidoDTOinput.class, ItemPedido.class)
-//	    	.addMappings(mapper -> mapper.skip(ItemPedido::setId));  
-//		
-//		var enderecoToEnderecoModelTypeMap = modelMapper.createTypeMap(
-//				Endereco.class, EnderecoDTO.class);
-//		
-//		enderecoToEnderecoModelTypeMap.<String>addMapping(
-//				enderecoSrc -> enderecoSrc.getCidade().getEstado().getNome(),
-//				(enderecoModelDest, value) -> enderecoModelDest.getCidade().setNomeEstado(value));
+//		modelMapper.createTypeMap(Restaurante.class, RestauranteDTO.class).addMapping(Restaurante::getTaxaFrete, RestauranteDTO::setTaxaFrete);
 		
 		return modelMapper;
 	}
